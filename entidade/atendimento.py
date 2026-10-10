@@ -1,30 +1,54 @@
-import datetime
+from datetime import date, time
+from paciente import Paciente
+from profissional import Profissional
+from clinica import Clinica
+
 
 class Atendimento:
     def __init__(self, codigo: int, clinica: Clinica, paciente: Paciente, acompanhante: Acompanhante, profissional: Profissional,
-                 tipo_atendimento: TipoAtendimento, data: datetime.date, horario_inicio: datetime.time, horario_fim: datetime.time,
+                 tipo_atendimento: TipoAtendimento, data: date, horario_inicio: time, horario_fim: time,
                  valor: float):
         
-        if isinstance(codigo, int):
-            self.__codigo = codigo
-        if isinstance(clinica, Clinica):
-            self.__clinica = clinica
-        if isinstance(paciente, Paciente):
-            self.__paciente = paciente
-        if isinstance(acompanhante, Acompanhante):
-            self.__acompanhante = acompanhante
-        if isinstance(profissional, Profissional):
-            self.__profissional = profissional
-        if isinstance(tipo_atendimento, TipoAtendimento):
-            self.__tipo_atendimento = tipo_atendimento
-        if isinstance(data, datetime.date):
-            self.__data = data
-        if isinstance(horario_inicio, datetime.time):
-            self.__horario_inicio = horario_inicio
-        if isinstance(horario_fim, datetime.time):
-            self.__horario_fim = horario_fim
-        if isinstance(valor, float):
-            self.__valor = valor
+        if not isinstance(codigo, int):
+            raise TypeError('O código precisa ser um texto (string)')
+        
+        if not isinstance(clinica, Clinica):
+            raise TypeError('A clinica precisa estar em formato Clinica')
+        
+        if not isinstance(paciente, Paciente):
+            raise TypeError('O paciente precisa estar em formato Paciente')
+        
+        if not isinstance(acompanhante, Acompanhante):
+            raise TypeError('O acompanhante precisa estar em formato Acompanhante')
+        
+        if not isinstance(profissional, Profissional):
+            raise TypeError('O profissional precisa estar em formato Profissional')
+        
+        if not isinstance(tipo_atendimento, TipoAtendimento):
+            raise TypeError('O tipo de atendimento precisa estar em formato TipoAtendimento')
+        
+        if not isinstance(data, date):
+            raise TypeError('A data precisa estar em formato de date')
+        
+        if not isinstance(horario_inicio, time):
+            raise TypeError('Horário de Início precisa estar em formato de time')
+        
+        if not isinstance(horario_fim, time):
+            raise TypeError('Horário de Fim precisa estar em formato de time')
+        
+        if not isinstance(valor, float):
+            raise TypeError('Valor precisa estar em formato de float')
+        
+        self.__codigo = codigo
+        self.__clinica = clinica
+        self.__paciente = paciente
+        self.__acompanhante = acompanhante
+        self.__profissional = profissional
+        self.__tipo_atendimento = tipo_atendimento
+        self.__data = data
+        self.__horario_inicio = horario_inicio
+        self.__horario_fim = horario_fim
+        self.__valor = valor
         self.__procedimentos = []
         self.__pagamentos = []
 
@@ -89,32 +113,32 @@ class Atendimento:
         self.__tipo_atendimento = tipo_atendimento
 
     @property
-    def data(self) -> datetime.date:
+    def data(self) -> date:
         return self.__data
 
     @data.setter
-    def data(self, data: datetime.date) -> None:
-        if not isinstance(data, datetime.date):
+    def data(self, data: date) -> None:
+        if not isinstance(data, date):
             raise TypeError('data tem de ser tipo datetime.date')
         self.__data = data
 
     @property
-    def horario_inicio(self) -> datetime.time:
+    def horario_inicio(self) -> time:
         return self.__horario_inicio
 
     @horario_inicio.setter
-    def horario_inicio(self, horario_inicio: datetime.time) -> None:
-        if not isinstance(horario_inicio, datetime.time):
+    def horario_inicio(self, horario_inicio: time) -> None:
+        if not isinstance(horario_inicio, time):
             raise TypeError('horario_inicio tem de ser tipo datetime.time')
         self.__horario_inicio = horario_inicio
 
     @property
-    def horario_fim(self) -> datetime.time:
+    def horario_fim(self) -> time:
         return self.__horario_fim
 
     @horario_fim.setter
-    def horario_fim(self, horario_fim: datetime.time) -> None:
-        if not isinstance(horario_fim, datetime.time):
+    def horario_fim(self, horario_fim: time) -> None:
+        if not isinstance(horario_fim, time):
             raise TypeError('horario_fim tem de ser tipo datetime.time')
         self.__horario_fim = horario_fim
 

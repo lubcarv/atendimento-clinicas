@@ -1,8 +1,20 @@
 from abc import ABC, abstractmethod
-import datetime
+from datetime import date
 
 class Pessoa(ABC):
-    def __init__(self, nome: str, celular: str, cpf: str, data_nascimento: datetime.date):
+    def __init__(self, nome: str, celular: str, cpf: str, data_nascimento: date):
+        if not isinstance(nome, str):
+            raise TypeError('O nome precisa estar em formato de string')
+        
+        if not isinstance(celular, str):
+            raise TypeError('O celular precisa estar em formato de string')
+        
+        if not isinstance(cpf, str):
+            raise TypeError('O cpf precisa estar em formato de string')
+        
+        if not isinstance(data_nascimento, date):
+            raise TypeError('A data de nascimento precisa estar em formato de date')
+
         self.__nome = nome
         self.__celular = celular
         self.__cpf = cpf
@@ -56,9 +68,9 @@ class Pessoa(ABC):
     def data_nascimento(self, data_nascimento):
         return data_nascimento
 
-    def idade(self, data_referencia: datetime.date) -> int:
-        if not isinstance(data_referencia, datetime.date):
-            raise TypeError('')
+    def idade(self, data_referencia: date) -> int:
+        if not isinstance(data_referencia, date):
+            raise TypeError('A data de referência tem de ser tipo date')
         if data_referencia < self.__data_nascimento:
             raise ValueError('A data de referência não pode ser anterior ao nascimento')
 
@@ -73,9 +85,9 @@ class Pessoa(ABC):
 
         return idade
 
-    def maior_de_idade(self, data_referencia: datetime.date) -> bool:
-        if not isinstance(data_referencia, datetime.date):
-            raise TypeError('A referência de data tem de estar em formato datetime.date')
+    def maior_de_idade(self, data_referencia: date) -> bool:
+        if not isinstance(data_referencia, date):
+            raise TypeError('A referência de data tem de estar em formato date')
         idade = data_referencia.year - self.data_nascimento
         if idade >= 18:
             return True
