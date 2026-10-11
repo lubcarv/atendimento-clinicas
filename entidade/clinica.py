@@ -2,7 +2,7 @@ from datetime import datetime, time
 from profissional import Profissional
 
 class Clinica:
-    def __init__(self, codigo: int, nome: str, localizacao: str, descricao: str, horario_abertura: time, horario_fechamento: time):
+    def __init__(self, codigo: int, nome: str, localizacao: str, descricao: str, horario_abertura: time, horario_fechamento: time) -> None:
         
         if not isinstance(codigo, int):
             raise TypeError('O código precisa estar em formato de string')

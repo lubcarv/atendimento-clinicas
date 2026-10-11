@@ -2,6 +2,7 @@ from datetime import date, time
 from paciente import Paciente
 from profissional import Profissional
 from clinica import Clinica
+from tipo_atendimento import TipoAtendimento
 
 
 class Atendimento:
@@ -157,19 +158,19 @@ class Atendimento:
         return self.__procedimentos
 
     @procedimentos.setter
-    def procedimentos(self, procedimentos: list[Pagamento]) -> None:
-        if not isinstance(procedimentos, list):
+    def procedimentos(self, lista_procedimentos: list[Pagamento]) -> None:
+        if not isinstance(lista_procedimentos, list):
             raise TypeError('Valor precisa ser uma lista')
-        self.__procedimentos = procedimentos
+        self.__procedimentos = lista_procedimentos
 
     @property
     def pagamentos(self) -> list[Pagamento]:
         return self.__pagamentos
 
     @pagamentos.setter
-    def pagamentos(self, pagamentos: list[Pagamento]) -> None:
-        if not isinstance(pagamentos, list):
+    def pagamentos(self, lista_pagamentos: list[Pagamento]) -> None:
+        if not isinstance(lista_pagamentos, list):
             raise TypeError('Valor precisa ser uma lista')
-        self.__pagamentos = pagamentos
+        self.__pagamentos = lista_pagamentos
 
     
