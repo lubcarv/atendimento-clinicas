@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from datetime import date
 
 class Pessoa(ABC):
+    @abstractmethod
     def __init__(self, nome: str, celular: str, cpf: str, data_nascimento: date):
         self.nome = nome
         self.celular = celular
@@ -50,7 +51,7 @@ class Pessoa(ABC):
 
     @data_nascimento.setter
     def data_nascimento(self, data_nascimento):
-        return data_nascimento
+        self.data_nascimento = data_nascimento
 
     def idade(self, data_referencia: date) -> int:
         if not isinstance(data_referencia, date):
@@ -72,7 +73,7 @@ class Pessoa(ABC):
     def maior_de_idade(self, data_referencia: date) -> bool:
         if not isinstance(data_referencia, date):
             raise TypeError('A referência de data tem de estar em formato date')
-        idade = data_referencia.year - self.data_nascimento
+        idade = data_referencia.year - self.data_nascimento.year
         if idade >= 18:
             return True
         return False
