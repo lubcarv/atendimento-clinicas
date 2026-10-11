@@ -10,48 +10,18 @@ class Atendimento:
                  tipo_atendimento: TipoAtendimento, data: date, horario_inicio: time, horario_fim: time,
                  valor: float):
         
-        if not isinstance(codigo, int):
-            raise TypeError('O código precisa ser um texto (string)')
-        
-        if not isinstance(clinica, Clinica):
-            raise TypeError('A clinica precisa estar em formato Clinica')
-        
-        if not isinstance(paciente, Paciente):
-            raise TypeError('O paciente precisa estar em formato Paciente')
-        
-        if not isinstance(acompanhante, Acompanhante):
-            raise TypeError('O acompanhante precisa estar em formato Acompanhante')
-        
-        if not isinstance(profissional, Profissional):
-            raise TypeError('O profissional precisa estar em formato Profissional')
-        
-        if not isinstance(tipo_atendimento, TipoAtendimento):
-            raise TypeError('O tipo de atendimento precisa estar em formato TipoAtendimento')
-        
-        if not isinstance(data, date):
-            raise TypeError('A data precisa estar em formato de date')
-        
-        if not isinstance(horario_inicio, time):
-            raise TypeError('Horário de Início precisa estar em formato de time')
-        
-        if not isinstance(horario_fim, time):
-            raise TypeError('Horário de Fim precisa estar em formato de time')
-        
-        if not isinstance(valor, float):
-            raise TypeError('Valor precisa estar em formato de float')
-        
-        self.__codigo = codigo
-        self.__clinica = clinica
-        self.__paciente = paciente
-        self.__acompanhante = acompanhante
-        self.__profissional = profissional
-        self.__tipo_atendimento = tipo_atendimento
-        self.__data = data
-        self.__horario_inicio = horario_inicio
-        self.__horario_fim = horario_fim
-        self.__valor = valor
-        self.__procedimentos = []
-        self.__pagamentos = []
+        self.codigo = codigo
+        self.clinica = clinica
+        self.paciente = paciente
+        self.acompanhante = acompanhante
+        self.profissional = profissional
+        self.tipo_atendimento = tipo_atendimento
+        self.data = data
+        self.horario_inicio = horario_inicio
+        self.horario_fim = horario_fim
+        self.valor = valor
+        self.procedimentos = []
+        self.pagamentos = []
 
     @property
     def codigo(self) -> int:
