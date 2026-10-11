@@ -55,5 +55,12 @@ class TelaAbstrata(ABC):
                 return texto
             print("Este campo não pode ficar vazio")
 
+    def le_CPF(self, mensagem: str = "") -> str:
+        while True:
+            texto = input(mensagem).strip().replace('-', '').replace('.', '')
+            if len(texto) == 11 and texto.isdigit():
+                return texto
+            print('CPF inválido')
+
     def mostra_mensagem(self, msg: str) -> None:
         print(msg)

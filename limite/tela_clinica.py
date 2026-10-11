@@ -11,8 +11,10 @@ class TelaClinica(TelaAbstrata):
         print('5. Excluir Clínica')
         print('6. Vincular Profissional')
         print('7. Desvincular Profissional')
-        print('8. Retornar')
-        return self.le_num_inteiro
+        print('0. Retornar')
+
+        opcao = int(input('Escolha a opção: '))
+        return opcao
 
     def pega_dados_clinica(self) -> dict:
         print("====== DADOS DA CLÍNICA ======")
@@ -36,6 +38,7 @@ class TelaClinica(TelaAbstrata):
         print(f'LOCALIZAÇÃO DA CLÍNICA: {dados_clinica['localização']}')
         print(f'DESCRIÇÃO: {dados_clinica['descrição']}')
         print(f'HORÁRIO: Das {dados_clinica['horário_abertura']} às {dados_clinica['horário_fechamento']}')
+        print('\n')
 
         profissionais = [profissional.nome for profissional in dados_clinica['profissionais']]
         if len(profissionais) == 0:

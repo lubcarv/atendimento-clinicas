@@ -3,35 +3,13 @@ from profissional import Profissional
 
 class Clinica:
     def __init__(self, codigo: int, nome: str, localizacao: str, descricao: str, horario_abertura: time, horario_fechamento: time) -> None:
-        
-        if not isinstance(codigo, int):
-            raise TypeError('O código precisa estar em formato de string')
-
-        if not isinstance(nome, str):
-            raise TypeError('O nome precisa estar em formato de string')
-
-        if not isinstance(localizacao, str):
-            raise TypeError('A localização precisa estar em formato de string')
-
-        if not isinstance(descricao, str):
-            raise TypeError('A descrição precisa estar em formato de string')
-
-        if not isinstance(horario_abertura, time):
-            raise TypeError('O horário de abertura precisa estar em formato de time')
-
-        if not isinstance(horario_fechamento, time):
-            raise TypeError('O horário de fechamento precisa estar em formato de time')
-
-        if horario_abertura >= horario_fechamento:
-            raise ValueError('O horário de início deve ser menor que o horário de fim')
-
-        self.__codigo = codigo
-        self.__nome = nome
-        self.__localizacao = localizacao
-        self.__descricao = descricao
-        self.__horario_abertura = horario_abertura
-        self.__horario_fechamento = horario_fechamento
-        self.__profissionais = []
+        self.codigo = codigo
+        self.nome = nome
+        self.localizacao = localizacao
+        self.descricao = descricao
+        self.horario_abertura = horario_abertura
+        self.horario_fechamento = horario_fechamento
+        self.profissionais = []
 
     @property
     def codigo(self) -> int:

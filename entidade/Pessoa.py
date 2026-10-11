@@ -3,42 +3,26 @@ from datetime import date
 
 class Pessoa(ABC):
     def __init__(self, nome: str, celular: str, cpf: str, data_nascimento: date):
-        if not isinstance(nome, str):
-            raise TypeError('O nome precisa estar em formato de string')
-        
-        if not isinstance(celular, str):
-            raise TypeError('O celular precisa estar em formato de string')
-        
-        if not isinstance(cpf, str):
-            raise TypeError('O cpf precisa estar em formato de string')
-        
-        if not isinstance(data_nascimento, date):
-            raise TypeError('A data de nascimento precisa estar em formato de date')
-
-        self.__nome = nome
-        self.__celular = celular
-        self.__cpf = cpf
-        self.__data_nascimento = data_nascimento
+        self.nome = nome
+        self.celular = celular
+        self.cpf = cpf
+        self.data_nascimento = data_nascimento
 
     @property
-    @abstractmethod
     def nome(self):
         return self.__nome
 
     @nome.setter
-    @abstractmethod
     def nome(self, nome):
         if not isinstance(nome, str):
             raise TypeError('Nome precisa ser uma string')
         self.__nome = nome
 
     @property
-    @abstractmethod
     def celular(self):
         return self.__celular
 
     @celular.setter
-    @abstractmethod
     def celular(self, celular):
         if not isinstance(celular, str):
             raise TypeError('Celular precisa ser uma string')

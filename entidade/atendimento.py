@@ -15,49 +15,23 @@ from exceptions.valor_pago_excedente_exception import ValorPagoExcedenteExceptio
 
 
 class Atendimento:
-    def __init__(self, codigo: int, clinica: Clinica, paciente: Paciente, profissional: Profissional,
+    def __init__(self, codigo: int, clinica: Clinica, paciente: Paciente, profissional: Profissional, acompanhante: Acompanhante,
                  tipo_atendimento: TipoAtendimento, data: date, horario_inicio: time, horario_fim: time,
                  valor: float):
-
-        if not isinstance(codigo, int):
-            raise TypeError("O código deve ser um número inteiro.")
-
-        if not isinstance(clinica, Clinica):
-            raise TypeError('A clinica precisa estar em formato Clinica')
         
-        if not isinstance(paciente, Paciente):
-            raise TypeError('O paciente precisa estar em formato Paciente')
-
-        if not isinstance(profissional, Profissional):
-            raise TypeError('O profissional precisa estar em formato Profissional')
-        
-        if not isinstance(tipo_atendimento, TipoAtendimento):
-            raise TypeError('O tipo de atendimento precisa estar em formato TipoAtendimento')
-        
-        if not isinstance(data, date):
-            raise TypeError('A data precisa estar em formato de date')
-        
-        if not isinstance(horario_inicio, time):
-            raise TypeError('Horário de Início precisa estar em formato de time')
-        
-        if not isinstance(horario_fim, time):
-            raise TypeError('Horário de Fim precisa estar em formato de time')
-        
-        if not isinstance(valor, float):
-            raise TypeError('Valor precisa estar em formato de float')
-        
-        self.__codigo = codigo
+        self.codigo = codigo
         self.clinica = clinica
         self.paciente = paciente
+        self.acompanhante = acompanhante
         self.profissional = profissional
         self.tipo_atendimento = tipo_atendimento
         self.data = data
         self.horario_inicio = horario_inicio
         self.horario_fim = horario_fim
         self.valor = valor
-        self.__acompanhante = None
-        self.__procedimentos = []
-        self.__pagamentos = []
+        self.procedimentos = []
+        self.pagamentos = []
+
     @property
     def codigo(self) -> int:
         return self.__codigo
