@@ -4,13 +4,8 @@ from datetime import date
 class Profissional(Pessoa):
     def __init__(self, nome: str, celular: str, cpf: str, data_nascimento: date, especialidade: str, registro_profissional: str) -> None:
         super.__init__(nome, celular, cpf, data_nascimento)
-
-        if not isinstance(especialidade, str):
-            raise TypeError('A especialidade precisa estar em formato de string')
-        if not isinstance(registro_profissional, str):
-            raise TypeError('O registro profissional precisa estar em formato de string')
-        self.__especialidade = especialidade
-        self.__registro_profissional = registro_profissional
+        self.especialidade = especialidade
+        self.registro_profissional = registro_profissional
 
     @property
     def especialidade(self) -> str:

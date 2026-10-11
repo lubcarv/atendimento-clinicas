@@ -13,6 +13,7 @@ class ControladorClinicas:
         for clinica in self.__clinicas:
             if clinica.codigo == codigo:
                 return clinica
+        return None
 
     def incluir_clinica(self) -> None:
         dados_clinica = self.__tela_clinica.pega_dados_clinica()
@@ -33,21 +34,29 @@ class ControladorClinicas:
         self.lista_clinicas()
         codigo_clinica = self.__tela_clinica.seleciona_clinica()
         clinica = self.pega_clinica_por_codigo(codigo_clinica)
+        try:
+            if clinica is not None:
+                novos_dados_clinica = self.__tela_clinica.pega_dados_clinica()
+                clinica.nome = novos_dados_clinica['nome']
+                clinica.telefone = novos_dados_clinica['telefone']
+                clinica.codigo = novos_dados_clinica['código']
+                clinica.descricao = novos_dados_clinica['descrição']
+                clinica.horario_abertura = novos_dados_clinica['horário_abertura']
+                clinica.horario_fechamento = novos_dados_clinica['horário_fechamento']
+            else:
+                raise ClinicaInexistenteException(codigo_clinica)
 
-        if clinica is not None:
-            novos_dados_clinica = self.__tela_clinica.pega_dados_clinica()
-            clinica.nome = novos_dados_clinica['nome']
-            clinica.telefone = novos_dados_clinica['telefone']
-            clinica.codigo = novos_dados_clinica['código']
-            clinica.descricao = novos_dados_clinica['descrição']
-            clinica.horario_abertura = novos_dados_clinica['horário_abertura']
-            clinica.horario_fechamento = novos_dados_clinica['horário_fechamento']
+        except ClinicaInexistenteException as e:
+            self.__tela_clinica.mostra_mensagem(e)
 
     def lista_clinicas(self) -> None:
-        for clinica in self.__clinicas:
-            self.__tela_clinica.mostra_clinica({'nome': clinica.nome, 'localização': clinica.localizacao, 
-                                                'descrição': clinica.descricao, 'horário': clinica.horario,
-                                                'profissionais': clinica.profissionais})
+        if len(self.__pacientes) == 0:
+            print('A lista de pacientes está vazia')
+        else:
+            for clinica in self.__clinicas:
+                self.__tela_clinica.mostra_clinica({'nome': clinica.nome, 'localização': clinica.localizacao, 
+                                                    'descrição': clinica.descricao, 'horário': clinica.horario,
+                                                    'profissionais': clinica.profissionais})
 
     def excluir_clinica(self):
         self.lista_clinicas()
@@ -58,7 +67,7 @@ class ControladorClinicas:
                 self.__clinicas.remove(clinica)
                 self.lista_clinicas()
             else:
-                raise ClinicaInexistenteException
+                raise ClinicaInexistenteException(codigo_clinica)
 
         except ClinicaInexistenteException as e:
             self.__tela_clinica.mostra_mensagem(e)

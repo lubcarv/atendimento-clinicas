@@ -9,24 +9,20 @@ class Pessoa(ABC):
         self.data_nascimento = data_nascimento
 
     @property
-    @abstractmethod
     def nome(self):
         return self.__nome
 
     @nome.setter
-    @abstractmethod
     def nome(self, nome):
         if not isinstance(nome, str):
             raise TypeError('Nome precisa ser uma string')
         self.__nome = nome
 
     @property
-    @abstractmethod
     def celular(self):
         return self.__celular
 
     @celular.setter
-    @abstractmethod
     def celular(self, celular):
         if not isinstance(celular, str):
             raise TypeError('Celular precisa ser uma string')
