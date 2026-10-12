@@ -4,7 +4,7 @@ from limite.tela_abstrata import TelaAbstrata
 class TelaAtendimento(TelaAbstrata):
 
     def tela_opcoes(self) -> int:
-        print("____ Opções ____")
+        print("____ Atendimentos ____")
         print("1 - Incluir")
         print("2 - Alterar")
         print("3 - Listar")
@@ -39,7 +39,7 @@ class TelaAtendimento(TelaAbstrata):
         nome = self.le_texto("Nome do acompanhante: ")
         celular = self.le_texto("Celular do acompanhante: ")
         cpf = self.le_texto("CPF do acompanhante: ")
-        data_nascimento = self.le_data("Data de nascimento do acompanhante: ")
+        data_nascimento = self.le_data("Data de nascimento do acompanhante (dd/mm/aaaa): ")
 
         return { "nome": nome,
                  "celular": celular,
@@ -61,6 +61,11 @@ class TelaAtendimento(TelaAbstrata):
         print(f"Valor: R$ {dados_atendimento['valor']:.2f}")
         print(f"Valor pago: R$ {dados_atendimento['valor_pago']:.2f}")
         print(f"Valor restante: R$ {dados_atendimento['valor_restante']:.2f}")
+
+    def pergunta_acompanhante(self, nome_paciente: str) -> bool:
+        print(f"O paciente {nome_paciente} é menor de idade e só pode ser atendido com um acompanhante maior de idade.")
+        opcao = self.le_num_inteiro("Deseja informar o acompanhante agora? (1 - Sim, 0 - Não): ", [0, 1])
+        return opcao == 1
 
     def seleciona_atendimento(self) -> int:
         return self.le_num_inteiro("Código do atendimento: ")

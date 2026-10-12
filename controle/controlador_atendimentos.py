@@ -1,3 +1,7 @@
+from exceptions.acompanhante_menor_de_idade_exception import AcompanhanteMenorDeIdadeException
+from exceptions.horario_fora_do_funcionamento_exception import HorarioForaDoFuncionamentoException
+from exceptions.paciente_menor_de_idade_exception import PacienteMenorDeIdadeException
+from exceptions.profissional_nao_vinculado_exception import ProfissionalNaoVinculadoException
 from limite.tela_atendimento import TelaAtendimento
 from entidade.atendimento import Atendimento
 from exceptions.atendimento_repetido_exception import AtendimentoRepetidoException
@@ -32,20 +36,20 @@ class ControladorAtendimentos:
 
         paciente = sistema.controlador_pacientes.pega_paciente_por_cpf(dados["cpf_paciente"])
         if paciente is None:
-            raise CadastroInexistenteException("Paciente", dados["cpf_paciente"])
+            raise PacienteInexistenteException(dados["cpf_paciente"])
 
         profissional = sistema.controlador_profissionais.pega_profissional_por_cpf(dados["cpf_profissional"])
         if profissional is None:
-            raise CadastroInexistenteException("Profissional", dados["cpf_profissional"])
+            raise ProfissionalInexistenteException(dados["cpf_profissional"])
 
         clinica = sistema.controlador_clinicas.pega_clinica_por_codigo(dados["codigo_clinica"])
         if clinica is None:
-            raise CadastroInexistenteException("Clínica", dados["codigo_clinica"])
+            raise ClinicaInexistenteException(dados["codigo_clinica"])
 
         tipo_atendimento = sistema.controlador_tipos_atendimento.pega_tipo_atendimento_por_codigo(
             dados["codigo_tipo_atendimento"])
         if tipo_atendimento is None:
-            raise CadastroInexistenteException("Tipo de atendimento", dados["codigo_tipo_atendimento"])
+            raise TipoAtendimentoInexistenteException(dados["codigo_tipo_atendimento"])
 
         return paciente, profissional, clinica, tipo_atendimento
 
@@ -71,7 +75,7 @@ class ControladorAtendimentos:
         dados = self.__tela_atendimento.pega_dados_atendimento()
         try:
             if self.pega_atendimento_por_codigo(dados["codigo"]) is not None:
-                raise CadastroRepetidoException("Atendimento", dados["codigo"])
+                raise AtendimentoRepetidoException(dados["codigo"])
 
             paciente, profissional, clinica, tipo_atendimento = self.__busca_cadastros(dados)
             self.__verifica_regras_da_clinica(profissional, clinica,
@@ -85,8 +89,10 @@ class ControladorAtendimentos:
             self.__atendimentos.append(atendimento)
             self.__tela_atendimento.mostra_mensagem("Atendimento incluído com sucesso.")
 
-        except (CadastroRepetidoException, CadastroInexistenteException,
-                ProfissionalNaoVinculadoException, HorarioForaDoFuncionamentoException,
+
+        except (AtendimentoRepetidoException, PacienteInexistenteException,
+                ProfissionalInexistenteException, ClinicaInexistenteException,
+                TipoAtendimentoInexistenteException,  ProfissionalNaoVinculadoException, HorarioForaDoFuncionamentoException,
                 PacienteMenorDeIdadeException, AcompanhanteMenorDeIdadeException,
                 TypeError, ValueError) as e:
             self.__tela_atendimento.mostra_mensagem(e)
@@ -123,10 +129,10 @@ class ControladorAtendimentos:
         try:
             atendimento = self.pega_atendimento_por_codigo(codigo)
             if atendimento is None:
-                raise CadastroInexistenteException("Atendimento", codigo)
+                raise AtendimentoInexistenteException(codigo)
             self.__atendimentos.remove(atendimento)
             self.__tela_atendimento.mostra_mensagem("Atendimento excluído.")
-        except CadastroInexistenteException as e:
+        except AtendimentoInexistenteException as e:
             self.__tela_atendimento.mostra_mensagem(e)
 
     def retornar(self):
