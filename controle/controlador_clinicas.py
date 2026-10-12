@@ -72,6 +72,10 @@ class ControladorClinicas:
         except ClinicaInexistenteException as e:
             self.__tela_clinica.mostra_mensagem(e)
 
+    @property
+    def clinicas(self) -> list[Clinica]:
+        return list(self.__clinicas)
+
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
