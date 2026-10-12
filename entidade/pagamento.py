@@ -1,6 +1,9 @@
 from abc import abstractmethod, ABC
 from datetime import date
 
+from entidade.atendimento import Atendimento
+from entidade.paciente import Paciente
+
 
 class Pagamento(ABC):
 
@@ -39,11 +42,11 @@ class Pagamento(ABC):
         self.__valor_pago = valor_pago
 
     @property
-    def atendimento(self) -> "Atendimento":
+    def atendimento(self) -> Atendimento:
         return self.__atendimento
 
     @property
-    def paciente(self) -> "Paciente":
+    def paciente(self) -> Paciente:
         return self.__atendimento.paciente
 
     @abstractmethod
