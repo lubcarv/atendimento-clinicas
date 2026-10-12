@@ -10,17 +10,19 @@ class TelaPaciente(TelaAbstrata):
         print('5. Excluir Paciente')
         print('0. Retornar')
 
-        opcao = int(input('Escolha a opção: '))
-        return opcao
+        return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4, 5])
 
     def pega_dados_paciente(self) -> dict:
         print("====== DADOS DO PACIENTE ======")
-        nome = input('Nome: ')
-        celular = input('Celular: ')
+        nome = self.le_texto('Nome: ')
+        celular = self.le_texto('Celular: ')
         cpf = self.le_CPF('CPF: ')
         data_nascimento = self.le_data('Data de Nascimento: ')
 
-        return {'nome': nome, 'celular': celular, 'cpf': cpf, 'data_nascimento': data_nascimento}
+        return {'nome': nome, 
+                'celular': celular, 
+                'cpf': cpf, 
+                'data_nascimento': data_nascimento}
 
     def mostra_paciente(self, dados_paciente) -> None:
         print(f'NOME DO PACIENTE: {dados_paciente['nome']}')
@@ -30,7 +32,7 @@ class TelaPaciente(TelaAbstrata):
         print('\n')
 
     def seleciona_paciente(self) -> str:
-        cpf = input('CPF do paciente que deseja selecionar: ')
+        cpf = self.le_CPF('CPF do paciente que deseja selecionar: ')
         return cpf
 
     def mostra_mensagem(self, msg) -> None:
