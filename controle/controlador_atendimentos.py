@@ -98,7 +98,47 @@ class ControladorAtendimentos:
             self.__tela_atendimento.mostra_mensagem(e)
 
     def alterar_atendimento(self):
-        pass  # você faz
+        self.lista_atendimentos()
+        codigo = self.__tela_atendimento.seleciona_atendimento()
+        try:
+            atendimento = self.pega_atendimento_por_codigo(codigo)
+            if atendimento is None:
+                raise AtendimentoInexistenteException(codigo)
+
+            dados = self.__tela_atendimento.pega_dados_atendimento()
+            paciente, profissional, clinica, tipo_atendimento = self.__busca_cadastros(dados)
+            self.__verifica_regras_da_clinica(profissional, clinica,
+                                              dados["horario_inicio"], dados["horario_fim"])
+            if dados["valor"] < atendimento.valor_pago():
+                raise ValueError("O novo valor não pode ser menor que o valor já pago.")
+
+            provisorio = Atendimento(atendimento.codigo, clinica, paciente, profissional,
+                                     tipo_atendimento, dados["data"], dados["horario_inicio"],
+                                     dados["horario_fim"], dados["valor"])
+            if atendimento.acompanhante is None:
+                self.__verifica_acompanhante(provisorio)
+
+            atendimento.clinica = clinica
+            atendimento.paciente = paciente
+            atendimento.profissional = profissional
+            atendimento.tipo_atendimento = tipo_atendimento
+            atendimento.data = dados["data"]
+            atendimento.horario_inicio = dados["horario_inicio"]
+            atendimento.horario_fim = dados["horario_fim"]
+            atendimento.valor = dados["valor"]
+            if provisorio.acompanhante is not None:
+                acompanhante = provisorio.acompanhante
+                atendimento.incluir_acompanhante(acompanhante.nome, acompanhante.celular,
+                                                 acompanhante.cpf, acompanhante.data_nascimento)
+            self.__tela_atendimento.mostra_mensagem("Atendimento alterado com sucesso.")
+
+        except (AtendimentoInexistenteException, PacienteInexistenteException,
+                    ProfissionalInexistenteException, ClinicaInexistenteException,
+                    TipoAtendimentoInexistenteException,
+                    ProfissionalNaoVinculadoException, HorarioForaDoFuncionamentoException,
+                    PacienteMenorDeIdadeException, AcompanhanteMenorDeIdadeException,
+                    TypeError, ValueError) as e:
+            self.__tela_atendimento.mostra_mensagem(e)
 
     def lista_atendimentos(self):
         if not self.__atendimentos:
