@@ -15,22 +15,23 @@ from exceptions.valor_pago_excedente_exception import ValorPagoExcedenteExceptio
 
 
 class Atendimento:
-    def __init__(self, codigo: int, clinica: Clinica, paciente: Paciente, profissional: Profissional, acompanhante: Acompanhante,
+    def __init__(self, codigo: int, clinica: Clinica, paciente: Paciente, profissional: Profissional,
                  tipo_atendimento: TipoAtendimento, data: date, horario_inicio: time, horario_fim: time,
                  valor: float):
-        
-        self.codigo = codigo
+        if not isinstance(codigo, int):
+            raise TypeError("O código deve ser um número inteiro.")
+        self.__codigo = codigo
         self.clinica = clinica
         self.paciente = paciente
-        self.acompanhante = acompanhante
         self.profissional = profissional
         self.tipo_atendimento = tipo_atendimento
         self.data = data
         self.horario_inicio = horario_inicio
         self.horario_fim = horario_fim
         self.valor = valor
-        self.procedimentos = []
-        self.pagamentos = []
+        self.__acompanhante = None
+        self.__procedimentos = []
+        self.__pagamentos = []
 
     @property
     def codigo(self) -> int:
@@ -121,7 +122,7 @@ class Atendimento:
         if not isinstance(valor, (float, int)):
             raise TypeError('valor tem de ser numérico.')
         if valor < 0:
-            raise  ValueError("O valor não pode ser negativo.")
+            raise ValueError("O valor não pode ser negativo.")
         self.__valor = valor
 
     @property
