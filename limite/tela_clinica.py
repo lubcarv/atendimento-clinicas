@@ -12,16 +12,14 @@ class TelaClinica(TelaAbstrata):
         print('6. Vincular Profissional')
         print('7. Desvincular Profissional')
         print('0. Retornar')
-
-        opcao = int(input('Escolha a opção: '))
-        return opcao
+        return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4, 5, 6, 7])
 
     def pega_dados_clinica(self) -> dict:
         print("====== DADOS DA CLÍNICA ======")
-        codigo = input('Código: ')
-        nome = input('Nome: ')
-        localizacao = input('Localização: ')
-        descricao = input('Descrição: ')
+        codigo = self.le_num_inteiro('Código: ')
+        nome = self.le_texto('Nome: ')
+        localizacao = self.le_texto('Localização: ')
+        descricao = self.le_texto('Descrição: ')
         horario_abertura = self.le_horario('Horário de Abertura (HH:MM): ')
         horario_fechamento = self.le_horario('Horário de Fechamento (HH:MM): ')
 
@@ -47,7 +45,7 @@ class TelaClinica(TelaAbstrata):
             print(f'PROFISSIONAIS VINCULADOS: {profissionais}')
 
     def seleciona_clinica(self) -> int:
-        codigo = input('Código da clínica que deseja selecionar: ')
+        codigo = self.le_texto('Código da clínica que deseja selecionar: ')
         return codigo
 
     def mostra_mensagem(self, msg) -> None:
