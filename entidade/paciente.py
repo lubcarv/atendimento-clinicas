@@ -1,8 +1,5 @@
 from entidade.pessoa import Pessoa
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from datetime import date
+from datetime import date
 
 class Paciente(Pessoa):
     def __init__(self, nome: str, celular: str, cpf:str, data_nascimento: date):

@@ -1,4 +1,5 @@
-from datetime import datetime, time
+from __future__ import annotations
+from datetime import time
 from entidade.profissional import Profissional
 from typing import TYPE_CHECKING
 
@@ -81,7 +82,7 @@ class Clinica:
         self.__horario_fechamento = horario_fechamento
 
     @property
-    def profissionais(self) -> list[profissionais]:
+    def profissionais(self) -> list[Profissional]:
         return self.__profissionais
 
     @profissionais.setter

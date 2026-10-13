@@ -1,3 +1,4 @@
+from __future__ import annotations
 from limite.tela_relatorios import TelaRelatorio
 from typing import TYPE_CHECKING
 from collections import Counter
