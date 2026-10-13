@@ -16,7 +16,7 @@ class TelaAtendimento(TelaAbstrata):
         print("____ Dados do atendimento ____")
         codigo = self.le_num_inteiro("Código: ")
         cpf_paciente = self.le_texto("CPF do paciente: ")
-        cpf_profissional = self.le_texto("CPF do profissional: ")
+        cpf_profissional = self.le_CPF("CPF do profissional: ")
         codigo_clinica = self.le_num_inteiro("Código da clínica: ")
         codigo_tipo_atendimento = self.le_num_inteiro("Código do tipo de atendimento: ")
         data = self.le_data("Data do atendimento (dd/mm/aaaa): ")
@@ -38,7 +38,7 @@ class TelaAtendimento(TelaAbstrata):
         print("____ Dados do acompanhante ____")
         nome = self.le_texto("Nome do acompanhante: ")
         celular = self.le_texto("Celular do acompanhante: ")
-        cpf = self.le_texto("CPF do acompanhante: ")
+        cpf = self.le_CPF("CPF do acompanhante: ")
         data_nascimento = self.le_data("Data de nascimento do acompanhante (dd/mm/aaaa): ")
 
         return { "nome": nome,

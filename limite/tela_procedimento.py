@@ -20,7 +20,7 @@ class TelaProcedimento(TelaAbstrata):
         dados = {"codigo": self.le_num_inteiro("Código do procedimento: "),
                  "descricao": self.le_texto("Descrição do procedimento: "),
                  "custo": self.le_valor("Custo do procedimento: "),
-                 "cpf_profissional": self.le_texto("CPF do profissional: ")}
+                 "cpf_profissional": self.le_CPF("CPF do profissional: ")}
         return dados
 
     def mostra_procedimento(self, dados_procedimento: dict):
