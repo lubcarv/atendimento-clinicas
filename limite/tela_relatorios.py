@@ -18,12 +18,7 @@ class TelaRelatorio(TelaAbstrata):
         print('=' * (len(titulo) + 14))
 
     def pega_dados_relatorio(self) -> tuple:
-        while True:
-            titulo = self.le_texto('Título do relatório: ').strip()
-            if titulo:
-                break
-            print('O título não pode ser vazio.')
-
+        titulo = self.le_texto('Título do relatório: ').strip()
         while True:
             qtd_linhas = self.le_num_inteiro('Quantidade de linhas: ')
             if qtd_linhas > 0:
