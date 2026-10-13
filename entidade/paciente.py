@@ -1,4 +1,9 @@
-from pessoa import Pessoa
+from entidade.pessoa import Pessoa
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from datetime import date
 
 class Paciente(Pessoa):
-    pass
+    def __init__(self, nome: str, celular: str, cpf:str, data_nascimento: date):
+        super().__init__(nome, celular, cpf, data_nascimento)

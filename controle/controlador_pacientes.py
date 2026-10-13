@@ -1,6 +1,7 @@
 from limite.tela_paciente import TelaPaciente
 from entidade.paciente import Paciente
 from exceptions.paciente_repetido_exception import PacienteRepetidoException
+from exceptions.paciente_inexistente_exception import PacienteInexistenteException
 
 class ControladorPacientes:
     def __init__(self, controlador_sistema):
@@ -11,7 +12,7 @@ class ControladorPacientes:
     def pega_paciente_por_cpf(self, cpf: str):
         for paciente in self.__pacientes:
             if paciente.cpf == cpf:
-                return cpf
+                return paciente
         return None
 
     def incluir_paciente(self):
@@ -40,9 +41,9 @@ class ControladorPacientes:
                 paciente.cpf = novos_dados_paciente['cpf']
                 paciente.data_nascimento = novos_dados_paciente['data_nascimento']
             else:
-                raise PacienteRepetidoException(cpf_paciente)
+                raise PacienteInexistenteException(cpf_paciente)
 
-        except PacienteRepetidoException as e:
+        except PacienteInexistenteException as e:
             self.__tela_paciente.mostra_mensagem(e)
 
     def lista_pacientes(self):
@@ -63,9 +64,9 @@ class ControladorPacientes:
                 self.__pacientes.remove(paciente)
                 self.lista_pacientes()
             else:
-                raise PacienteRepetidoException(cpf_paciente)
+                raise PacienteInexistenteException(cpf_paciente)
 
-        except PacienteRepetidoException as e:
+        except PacienteInexistenteException as e:
             self.__tela_paciente.mostra_mensagem(e)
 
     def retornar(self):

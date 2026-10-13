@@ -1,15 +1,14 @@
-from tela_abstrata import TelaAbstrata
+from limite.tela_abstrata import TelaAbstrata
 
 class TelaTipoAtendimento(TelaAbstrata):
     def tela_opcoes(self) -> int:
         print('====== SISTEMA DE TIPOS DE ATENDIMENTO ======')
-        print('1. Procurar Tipo de Atendimento por Código')
-        print('2. Incluir Tipo de Atendimento')
-        print('3. Alterar Tipo de Atendimento')
-        print('4. Listar Tipos de Atendimento')
-        print('5. Excluir Tipo de Atendimento')
+        print('1. Incluir Tipo de Atendimento')
+        print('2. Alterar Tipo de Atendimento')
+        print('3. Listar Tipos de Atendimento')
+        print('4. Excluir Tipo de Atendimento')
         print('0. Retornar')
-        return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4, 5])
+        return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4])
 
     def pega_dados_tipo_atendimento(self) -> dict:
         print('====== DADOS DO TIPO DE ATENDIMENTO ======')

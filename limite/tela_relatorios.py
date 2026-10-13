@@ -1,4 +1,4 @@
-from tela_abstrata import TelaAbstrata
+from limite.tela_abstrata import TelaAbstrata
 
 class TelaRelatorio(TelaAbstrata):
     def tela_opcoes(self) -> int:
@@ -15,6 +15,24 @@ class TelaRelatorio(TelaAbstrata):
         for linha in linhas:
             print(linha)
 
-        print('=' * (len(titulo) + 16))
+        print('=' * (len(titulo) + 14))
+
+    def pega_dados_relatorio(self) -> tuple:
+        while True:
+            titulo = self.le_texto('Título do relatório: ').strip()
+            if titulo:
+                break
+            print('O título não pode ser vazio.')
+
+        while True:
+            try:
+                qtd_linhas = self.le_num_inteiro('Quantidade de linhas: ')
+                if qtd_linhas > 0:
+                    break
+                print('A quantidade de linhas deve ser maior que zero.')
+            except ValueError:
+                print('Digite um número inteiro.')
+
+        return titulo, qtd_linhas
 
         

@@ -1,8 +1,13 @@
 from datetime import datetime, time
-from profissional import Profissional
+from entidade.profissional import Profissional
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from entidade.atendimento import Atendimento
 
 class Clinica:
-    def __init__(self, codigo: int, nome: str, localizacao: str, descricao: str, horario_abertura: time, horario_fechamento: time) -> None:
+    def __init__(self, codigo: int, nome: str, localizacao: str, descricao: str, horario_abertura: time, 
+                 horario_fechamento: time) -> None:
         self.codigo = codigo
         self.nome = nome
         self.localizacao = localizacao
@@ -95,12 +100,12 @@ class Clinica:
             raise TypeError('O parâmetro profissional precisa ser do tipo Profissional')
         self.__profissionais.remove(profissional)
 
-    def esta_aberta(self):
-        horario_atual = datetime.now().time()
+    def esta_aberta(self, atendimento: Atendimento):
+        inicio = atendimento.horario_inicio
+        fim = atendimento.horario_fim
 
-        if self.__horario_abertura <= horario_atual <= self.horario_fechamento:
+        if self.__horario_abertura <= inicio and fim <= self.__horario_fechamento:
             return True
-        else:
-            return False
+        return False
 
 

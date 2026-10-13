@@ -1,5 +1,5 @@
 from datetime import date
-from entidade.Pessoa import Pessoa
+from entidade.pessoa import Pessoa
 
 class Acompanhante(Pessoa):
 

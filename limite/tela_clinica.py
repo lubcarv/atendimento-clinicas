@@ -1,18 +1,17 @@
-from tela_abstrata import TelaAbstrata
+from limite.tela_abstrata import TelaAbstrata
 
 
 class TelaClinica(TelaAbstrata):
     def tela_opcoes(self) -> int:
         print('====== Sistema de Clínicas ======')
-        print('1. Procurar Clínica por Código')
-        print('2. Incluir Clínica')
-        print('3. Alterar Clínica')
-        print('4. Lista de Clínicas')
-        print('5. Excluir Clínica')
-        print('6. Vincular Profissional')
-        print('7. Desvincular Profissional')
+        print('1. Incluir Clínica')
+        print('2. Alterar Clínica')
+        print('3. Lista de Clínicas')
+        print('4. Excluir Clínica')
+        print('5. Vincular Profissional')
+        print('6. Desvincular Profissional')
         print('0. Retornar')
-        return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4, 5, 6, 7])
+        return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4, 5, 6])
 
     def pega_dados_clinica(self) -> dict:
         print("====== DADOS DA CLÍNICA ======")

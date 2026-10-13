@@ -1,16 +1,15 @@
-from tela_abstrata import TelaAbstrata
+from limite.tela_abstrata import TelaAbstrata
 
 class TelaPaciente(TelaAbstrata):
     def tela_opcoes(self) -> int:
         print('====== Sistema de Pacientes ======')
-        print('1. Procurar Paciente por CPF')
-        print('2. Incluir Paciente')
-        print('3. Alterar Paciente')
-        print('4. Listar Pacientes')
-        print('5. Excluir Paciente')
+        print('1. Incluir Paciente')
+        print('2. Alterar Paciente')
+        print('3. Listar Pacientes')
+        print('4. Excluir Paciente')
         print('0. Retornar')
 
-        return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4, 5])
+        return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4])
 
     def pega_dados_paciente(self) -> dict:
         print("====== DADOS DO PACIENTE ======")

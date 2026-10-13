@@ -35,12 +35,12 @@ class Pessoa(ABC):
 
     @cpf.setter
     def cpf(self, cpf):
-        cpf = cpf.replace('-', '').replace('.', '')
-        
         if not isinstance(cpf, str):
             raise TypeError('CPF precisa ser uma string')
-        
-        if len(cpf) != 11:
+        cpf = cpf.replace('-', '').replace('.', '')
+        if not isinstance(cpf, str):
+            raise ValueError('O CPF deve ter exatamente 11 dígitos')
+        if not cpf.isdigit() or len(cpf) != 11:
             raise ValueError('O código deve ter exatamente 9 caracteres')
         
         self.__cpf = cpf
@@ -60,7 +60,7 @@ class Pessoa(ABC):
             raise ValueError('A data de referência não pode ser anterior ao nascimento')
 
         # Determina a idade da pessoa em anos.
-        idade = data_referencia.year - self.__data_nascimento
+        idade = data_referencia.year - self.__data_nascimento.year
 
         # Serve para verificar se o aniversário já passou
         aniversario = (data_referencia.month, data_referencia.day) >= (self.__data_nascimento.month, self.__data_nascimento.day)
@@ -74,6 +74,6 @@ class Pessoa(ABC):
         if not isinstance(data_referencia, date):
             raise TypeError('A referência de data tem de estar em formato date')
         idade = data_referencia.year - self.__data_nascimento.year
-        if idade >= 18:
-            return True
+        if (data_referencia.month, data_referencia.day) < (self.__data_nascimento.month, self.__data_nascimento.day):
+            idade -= 1
         return False
