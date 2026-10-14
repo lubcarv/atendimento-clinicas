@@ -34,7 +34,7 @@ class ControladorAtendimentos:
     def __busca_cadastros(self, dados: dict):
         sistema = self.__controlador_sistema
 
-        paciente = sistema.controlador_pacientes.pega_paciente_por_cpf(dados["cpf_paciente"])
+        paciente = sistema.controlador_pacientes().pega_paciente_por_cpf(dados["cpf_paciente"])
         if paciente is None:
             raise PacienteInexistenteException(dados["cpf_paciente"])
 
@@ -42,7 +42,7 @@ class ControladorAtendimentos:
         if profissional is None:
             raise ProfissionalInexistenteException(dados["cpf_profissional"])
 
-        clinica = sistema.controlador_clinicas.pega_clinica_por_codigo(dados["codigo_clinica"])
+        clinica = sistema.controlador_clinica().pega_clinica_por_codigo(dados["codigo_clinica"])
         if clinica is None:
             raise ClinicaInexistenteException(dados["codigo_clinica"])
 
