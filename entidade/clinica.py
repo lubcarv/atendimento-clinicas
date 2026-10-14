@@ -7,24 +7,29 @@ if TYPE_CHECKING:
     from entidade.atendimento import Atendimento
 
 class Clinica:
-    def __init__(self, codigo: int, nome: str, localizacao: str, descricao: str, horario_abertura: time, 
+    def __init__(self, codigo: str, nome: str, localizacao: str, descricao: str, horario_abertura: time, 
                  horario_fechamento: time) -> None:
         self.codigo = codigo
         self.nome = nome
         self.localizacao = localizacao
         self.descricao = descricao
-        self.horario_abertura = horario_abertura
-        self.horario_fechamento = horario_fechamento
         self.profissionais = []
+        
+        if not isinstance(horario_abertura, time):
+            raise TypeError('O horário de abertura precisa estar em formato time')
+        if horario_abertura >= horario_fechamento:
+            raise ValueError('O horário de abertura precisa ser menor que o horário de fechamento')
+        self.__horario_abertura = horario_abertura
+        self.__horario_fechamento = horario_fechamento
 
     @property
-    def codigo(self) -> int:
+    def codigo(self) -> str:
         return self.__codigo
 
     @codigo.setter
-    def codigo(self, codigo: int) -> None:
-        if not isinstance(codigo, int):
-            raise TypeError('O código precisa ser tipo inteiro')
+    def codigo(self, codigo: str) -> None:
+        if not isinstance(codigo, str):
+            raise TypeError('O código precisa ser tipo string')
         self.__codigo = codigo
 
     @property
@@ -65,7 +70,7 @@ class Clinica:
     def horario_abertura(self, horario_abertura: time) -> None:
         if not isinstance(horario_abertura, time):
             raise TypeError('O horário de abertura precisa estar em formato time')
-        if horario_abertura >= self.horario_fechamento:
+        if horario_abertura >= self.__horario_fechamento:
             raise ValueError('O horário de abertura precisa ser menor que o horário de fechamento')
         self.__horario_abertura = horario_abertura
 
@@ -76,9 +81,9 @@ class Clinica:
     @horario_fechamento.setter
     def horario_fechamento(self, horario_fechamento: time) -> None:
         if not isinstance(horario_fechamento, time):
-            raise TypeError('O horário de fechamento precisa estar em formato time')
-        if self.__horario_abertura >= horario_fechamento:
-            raise ValueError('O horário de fechamento precisa ser maior que o horário de abertura')
+            raise TypeError('O horário de abertura precisa estar em formato time')
+        if horario_fechamento <= self.__horario_abertura:
+            raise ValueError('O horário de abertura precisa ser menor que o horário de fechamento')
         self.__horario_fechamento = horario_fechamento
 
     @property
@@ -94,11 +99,15 @@ class Clinica:
     def incluir_profissional(self, profissional):
         if not isinstance(profissional, Profissional):
             raise TypeError('O parâmetro profissional precisa ser do tipo Profissional')
+        if profissional in self.__profissionais:
+            raise ValueError('Este profissional já está vinculado à clínica')
         self.__profissionais.append(profissional)
 
     def excluir_profissional(self, profissional):
         if not isinstance(profissional, Profissional):
             raise TypeError('O parâmetro profissional precisa ser do tipo Profissional')
+        if profissional not in self.__profissionais:
+            raise ValueError('Este profissional não está vinculado à clínica')
         self.__profissionais.remove(profissional)
 
     def esta_aberta(self, atendimento: Atendimento):

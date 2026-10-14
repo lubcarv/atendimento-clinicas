@@ -9,11 +9,9 @@ if TYPE_CHECKING:
     from controle.controlador_procedimentos import ControladorProcedimentos
 
 class ControladorRelatorios:
-    def __init__(self, controlador_sistema: ControladorSistema, controlador_procedimentos: ControladorProcedimentos,
-                controlador_atendimentos: ControladorAtendimentos):
+    def __init__(self, controlador_sistema: ControladorSistema, controlador_atendimentos: ControladorAtendimentos):
         self.__controlador_sistema = controlador_sistema
         self.__tela_relatorio = TelaRelatorio()
-        self.__procedimentos = controlador_procedimentos
         self.__controlador_atendimentos = controlador_atendimentos
 
     def clinica_com_mais_atendimentos(self):

@@ -15,12 +15,11 @@ class TelaClinica(TelaAbstrata):
 
     def pega_dados_clinica(self) -> dict:
         print("====== DADOS DA CLÍNICA ======")
-        codigo = self.le_num_inteiro('Código: ')
+        codigo = self.le_texto('Código: ')
         nome = self.le_texto('Nome: ')
         localizacao = self.le_texto('Localização: ')
         descricao = self.le_texto('Descrição: ')
-        horario_abertura = self.le_horario('Horário de Abertura (HH:MM): ')
-        horario_fechamento = self.le_horario('Horário de Fechamento (HH:MM): ')
+        horario_abertura, horario_fechamento = self.pega_horarios()
 
         return {'código': codigo,
                 'nome': nome,
@@ -32,6 +31,7 @@ class TelaClinica(TelaAbstrata):
     def mostra_clinica(self, dados_clinica: dict) -> None:
         print('====== DETALHES DA CLÍNICA ======')
         print(f'NOME DA CLÍNICA: {dados_clinica["nome"]}')
+        print(f'CÓDIGO DA CLÍNICA: {dados_clinica['código']}')
         print(f'LOCALIZAÇÃO DA CLÍNICA: {dados_clinica['localização']}')
         print(f'DESCRIÇÃO: {dados_clinica['descrição']}')
         print(f'HORÁRIO: Das {dados_clinica['horário_abertura']} às {dados_clinica['horário_fechamento']}')
@@ -43,9 +43,18 @@ class TelaClinica(TelaAbstrata):
         else:
             print(f'PROFISSIONAIS VINCULADOS: {profissionais}')
 
-    def seleciona_clinica(self) -> int:
+    def pega_horarios(self) -> tuple:
+        horario_abertura = self.le_horario('Horário de Abertura (HH:MM): ')
+        horario_fechamento = self.le_horario('Horário de Fechamento (HH:MM): ')
+        return horario_abertura, horario_fechamento
+
+    def seleciona_clinica(self) -> str:
         codigo = self.le_texto('Código da clínica que deseja selecionar: ')
         return codigo
+
+    def seleciona_profissional(self) -> str:
+        cpf = self.le_texto('Digite o CPF do profissional que deseja vincular: ')
+        return cpf
 
     def mostra_mensagem(self, msg) -> None:
         print(msg)

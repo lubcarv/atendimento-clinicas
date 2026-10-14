@@ -12,12 +12,12 @@ class ControladorSistema:
     def __init__(self):
         self.__controlador_pacientes = ControladorPacientes(self)
         self.__controlador_profissionais = ControladorProfissionais(self)
-        self.__controlador_clinica = ControladorClinicas(self)
+        self.__controlador_clinica = ControladorClinicas(self, self.__controlador_profissionais)
         self.__controlador_tipos_atendimento = ControladorTiposAtendimento(self)
         self.__controlador_atendimentos = ControladorAtendimentos(self)
         self.__controlador_procedimentos = ControladorProcedimentos(self)
         self.__controlador_pagamentos = ControladorPagamentos(self)
-        self.__controlador_relatorios = ControladorRelatorios(self, self.__controlador_procedimentos, self.__controlador_atendimentos)
+        self.__controlador_relatorios = ControladorRelatorios(self, self.__controlador_atendimentos)
         self.__tela_sistema = TelaSistema()
 
     def controlador_pacientes(self):

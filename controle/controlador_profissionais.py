@@ -73,6 +73,11 @@ class ControladorProfissionais:
         except ProfissionalInexistenteException as e:
             self.__tela_profissional.mostra_mensagem(e)
 
+    def seleciona_profissional(self):
+        self.lista_profissionais()
+        identificador = self.__tela_profissional.seleciona_profissional()   # o método que a tela dele já tem
+        return self.pega_profissional_por_cpf(identificador)
+
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
