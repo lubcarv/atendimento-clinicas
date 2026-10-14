@@ -24,9 +24,12 @@ class ControladorPagamentos:
     # ---------- métodos auxiliares (privados)
 
     def __seleciona_atendimento(self):
-        self.__controlador_sistema.controlador_atendimentos.lista_atendimentos()
+        controlador_atendimentos = self.__controlador_sistema.controlador_atendimentos()
+        if not controlador_atendimentos.atendimentos:
+            raise ValueError("Nenhum atendimento cadastrado.")
+        controlador_atendimentos.lista_atendimentos()
         codigo = self.__tela_pagamento.seleciona_atendimento()
-        atendimento = self.__controlador_sistema.controlador_atendimentos.pega_atendimento_por_codigo(codigo)
+        atendimento = controlador_atendimentos.pega_atendimento_por_codigo(codigo)
         if atendimento is None:
             raise AtendimentoInexistenteException(codigo)
         return atendimento
@@ -79,6 +82,8 @@ class ControladorPagamentos:
     def alterar_pagamento(self):
         try:
             atendimento = self.__seleciona_atendimento()
+            if not atendimento.pagamentos:
+                raise ValueError("Nenhum pagamento registrado neste atendimento.")
             self.__mostra_pagamentos(atendimento)
             codigo = self.__tela_pagamento.seleciona_pagamento()
             pagamento = self.pega_pagamento_por_codigo(atendimento, codigo)
@@ -116,12 +121,14 @@ class ControladorPagamentos:
         try:
             atendimento = self.__seleciona_atendimento()
             self.__mostra_pagamentos(atendimento)
-        except AtendimentoInexistenteException as e:
+        except (AtendimentoInexistenteException, ValueError) as e:
             self.__tela_pagamento.mostra_mensagem(e)
 
     def excluir_pagamento(self):
         try:
             atendimento = self.__seleciona_atendimento()
+            if not atendimento.pagamentos:
+                raise ValueError("Nenhum pagamento registrado neste atendimento.")
             self.__mostra_pagamentos(atendimento)
             codigo = self.__tela_pagamento.seleciona_pagamento()
             pagamento = self.pega_pagamento_por_codigo(atendimento, codigo)
@@ -129,7 +136,7 @@ class ControladorPagamentos:
                 raise PagamentoInexistenteException(codigo)
             atendimento.excluir_pagamento(pagamento)
             self.__tela_pagamento.mostra_mensagem("Pagamento excluído.")
-        except (AtendimentoInexistenteException, PagamentoInexistenteException) as e:
+        except (AtendimentoInexistenteException, PagamentoInexistenteException, ValueError) as e:
             self.__tela_pagamento.mostra_mensagem(e)
 
     def retornar(self):

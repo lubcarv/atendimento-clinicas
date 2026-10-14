@@ -3,7 +3,7 @@ from datetime import date
 
 class Profissional(Pessoa):
     def __init__(self, nome: str, celular: str, cpf: str, data_nascimento: date, especialidade: str, registro_profissional: str) -> None:
-        super.__init__(nome, celular, cpf, data_nascimento)
+        super().__init__(nome, celular, cpf, data_nascimento)
         self.especialidade = especialidade
         self.registro_profissional = registro_profissional
 

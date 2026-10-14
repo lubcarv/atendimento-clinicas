@@ -23,6 +23,8 @@ class ControladorPacientes:
             if paciente == None:
                 paciente = Paciente(dados_paciente['nome'], dados_paciente['celular'], dados_paciente['cpf'], dados_paciente['data_nascimento'])
                 self.__pacientes.append(paciente)
+                self.__tela_paciente.mostra_mensagem("Paciente incluído.")
+
             else:
                 raise PacienteRepetidoException(cpf)
         except PacienteRepetidoException as e:
@@ -40,6 +42,7 @@ class ControladorPacientes:
                 paciente.celular = novos_dados_paciente['celular']
                 paciente.cpf = novos_dados_paciente['cpf']
                 paciente.data_nascimento = novos_dados_paciente['data_nascimento']
+                self.__tela_paciente.mostra_mensagem("Paciente alterado.")
             else:
                 raise PacienteInexistenteException(cpf_paciente)
 
@@ -63,6 +66,7 @@ class ControladorPacientes:
             if paciente is not None:
                 self.__pacientes.remove(paciente)
                 self.lista_pacientes()
+
             else:
                 raise PacienteInexistenteException(cpf_paciente)
 

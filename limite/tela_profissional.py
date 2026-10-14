@@ -16,7 +16,7 @@ class TelaProfissional(TelaAbstrata):
         celular = self.le_texto('CELULAR DO PROFISSIONAL: ')
         cpf = self.le_CPF('CPF DO PROFISSIONAL: ')
         data_nascimento = self.le_data('DATA DE NASCIMENTO DO PROFISSIONAL: ')
-        especialidade = self.le_texto('ESPECIALIDADE DO PROFISSIONAL')
+        especialidade = self.le_texto('ESPECIALIDADE DO PROFISSIONAL: ')
         registro_profissional = self.le_texto('REGISTRO PROFISSIONAL: ')
 
         return {'nome': nome, 'celular': celular, 'cpf': cpf, 'data_nascimento': data_nascimento,

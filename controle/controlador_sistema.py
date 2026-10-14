@@ -66,10 +66,10 @@ class ControladorSistema:
         return self.__controlador_procedimentos.abre_tela()
 
     def cadastra_pagamentos(self):
-        return self.__controlador_pagamentos
+        return self.__controlador_pagamentos.abre_tela()
 
     def cadastra_relatorios(self):
-        return self.__controlador_relatorios
+        return self.__controlador_relatorios.abre_tela()
 
     def encerra_sistema(self):
         exit(0)

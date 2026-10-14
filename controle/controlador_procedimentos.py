@@ -20,9 +20,12 @@ class ControladorProcedimentos:
         return None
 
     def __seleciona_atendimento(self):
-        self.__controlador_sistema.controlador_atendimentos().lista_atendimentos()
+        controlador_atendimentos = self.__controlador_sistema.controlador_atendimentos()
+        if not controlador_atendimentos.atendimentos:
+            raise ValueError("Nenhum atendimento cadastrado.")
+        controlador_atendimentos.lista_atendimentos()
         codigo = self.__tela_procedimento.seleciona_atendimento()
-        atendimento = self.__controlador_sistema.controlador_atendimentos().pega_atendimento_por_codigo(codigo)
+        atendimento = controlador_atendimentos.pega_atendimento_por_codigo(codigo)
         if atendimento is None:
             raise AtendimentoInexistenteException(codigo)
         return atendimento
@@ -45,7 +48,7 @@ class ControladorProcedimentos:
             if self.pega_procedimento_por_codigo(atendimento, dados["codigo"]) is not None:
                 raise ProcedimentoRepetidoException(dados["codigo"])
 
-            profissional = self.__controlador_sistema.controlador_profissionais.pega_profissional_por_cpf(
+            profissional = self.__controlador_sistema.controlador_profissionais().pega_profissional_por_cpf(
                 dados["cpf_profissional"])
             if profissional is None:
                 raise ProfissionalInexistenteException(dados["cpf_profissional"])
@@ -61,12 +64,14 @@ class ControladorProcedimentos:
         try:
             atendimento = self.__seleciona_atendimento()
             self.__mostra_procedimentos(atendimento)
-        except AtendimentoInexistenteException as e:
+        except (AtendimentoInexistenteException, ValueError) as e:\
             self.__tela_procedimento.mostra_mensagem(e)
 
     def alterar_procedimento(self):
         try:
             atendimento = self.__seleciona_atendimento()
+            if not atendimento.procedimentos:
+                raise ValueError("Nenhum procedimento registrado neste atendimento.")
             self.__mostra_procedimentos(atendimento)
             codigo = self.__tela_procedimento.seleciona_procedimento()
             procedimento = self.pega_procedimento_por_codigo(atendimento, codigo)
@@ -90,6 +95,8 @@ class ControladorProcedimentos:
     def excluir_procedimento(self):
         try:
             atendimento = self.__seleciona_atendimento()
+            if not atendimento.procedimentos:
+                raise ValueError("Nenhum procedimento registrado neste atendimento.")
             self.__mostra_procedimentos(atendimento)
             codigo = self.__tela_procedimento.seleciona_procedimento()
             procedimento = self.pega_procedimento_por_codigo(atendimento, codigo)
@@ -97,7 +104,7 @@ class ControladorProcedimentos:
                 raise ProcedimentoInexistenteException(codigo)
             atendimento.excluir_procedimento(procedimento)
             self.__tela_procedimento.mostra_mensagem("Procedimento excluído.")
-        except (AtendimentoInexistenteException, ProcedimentoInexistenteException) as e:
+        except (AtendimentoInexistenteException, ProcedimentoInexistenteException, ValueError) as e:
             self.__tela_procedimento.mostra_mensagem(e)
 
     def retornar(self):
