@@ -20,9 +20,9 @@ class ControladorProcedimentos:
         return None
 
     def __seleciona_atendimento(self):
-        self.__controlador_sistema.controlador_atendimentos.lista_atendimentos()
+        self.__controlador_sistema.controlador_atendimentos().lista_atendimentos()
         codigo = self.__tela_procedimento.seleciona_atendimento()
-        atendimento = self.__controlador_sistema.controlador_atendimentos.pega_atendimento_por_codigo(codigo)
+        atendimento = self.__controlador_sistema.controlador_atendimentos().pega_atendimento_por_codigo(codigo)
         if atendimento is None:
             raise AtendimentoInexistenteException(codigo)
         return atendimento
@@ -74,7 +74,7 @@ class ControladorProcedimentos:
                 raise ProcedimentoInexistenteException(codigo)
 
             dados = self.__tela_procedimento.pega_dados_procedimento()
-            profissional = self.__controlador_sistema.controlador_profissionais.pega_profissional_por_cpf(
+            profissional = self.__controlador_sistema.controlador_profissionais().pega_profissional_por_cpf(
                 dados["cpf_profissional"])
             if profissional is None:
                 raise ProfissionalInexistenteException(dados["cpf_profissional"])
