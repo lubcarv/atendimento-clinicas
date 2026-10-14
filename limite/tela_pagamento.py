@@ -28,7 +28,7 @@ class TelaPagamento(TelaAbstrata):
                  "data": self.le_data("Data do pagamento (dd/mm/aaaa): "),
                  "valor_pago": self.le_valor("Valor pago: R$ ")}
         if modalidade == 2:
-            dados["cpf_pagador"] = self.le_texto("CPF do pagador: ")
+            dados["cpf_pagador"] = self.le_CPF("CPF do pagador: ")
         elif modalidade == 3:
             dados["numero_cartao"] = self.le_texto("Número do cartão: ")
             dados["bandeira"] = self.le_texto("Bandeira: ")
