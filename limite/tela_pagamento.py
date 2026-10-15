@@ -36,7 +36,7 @@ class TelaPagamento(TelaAbstrata):
             dados["bandeira"] = self.le_texto("BANDEIRA: ")
         return dados
 
-    def mostra_pagamento(self, dados_pagamento: dict):
+    def mostra_pagamento(self, dados_pagamento: dict) -> None:
         print(f"Código: {dados_pagamento['codigo']} | {dados_pagamento['modalidade']} | "
               f"{dados_pagamento['data'].strftime('%d/%m/%Y')} | "
               f"R$ {dados_pagamento['valor_pago']:.2f}")

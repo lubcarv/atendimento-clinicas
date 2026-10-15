@@ -1,21 +1,26 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from limite.tela_paciente import TelaPaciente
 from entidade.paciente import Paciente
 from exceptions.paciente_repetido_exception import PacienteRepetidoException
 from exceptions.paciente_inexistente_exception import PacienteInexistenteException
 
+if TYPE_CHECKING:
+    from controle.controlador_sistema import ControladorSistema
+
 class ControladorPacientes:
-    def __init__(self, controlador_sistema):
+    def __init__(self, controlador_sistema: ControladorSistema) -> None:
         self.__controlador_sistema = controlador_sistema
         self.__tela_paciente = TelaPaciente()
         self.__pacientes = []
 
-    def pega_paciente_por_cpf(self, cpf: str):
+    def pega_paciente_por_cpf(self, cpf: str) -> Paciente | None:
         for paciente in self.__pacientes:
             if paciente.cpf == cpf:
                 return paciente
         return None
 
-    def incluir_paciente(self):
+    def incluir_paciente(self) -> None:
         dados_paciente = self.__tela_paciente.pega_dados_paciente()
         cpf = dados_paciente['cpf']
         paciente = self.pega_paciente_por_cpf(cpf)
@@ -30,7 +35,7 @@ class ControladorPacientes:
         except PacienteRepetidoException as e:
             self.__tela_paciente.mostra_mensagem(e)
 
-    def alterar_paciente(self):
+    def alterar_paciente(self) -> None:
         self.lista_pacientes()
         cpf_paciente = self.__tela_paciente.seleciona_paciente()
         paciente = self.pega_paciente_por_cpf(cpf_paciente)
@@ -49,7 +54,7 @@ class ControladorPacientes:
         except PacienteInexistenteException as e:
             self.__tela_paciente.mostra_mensagem(e)
 
-    def lista_pacientes(self):
+    def lista_pacientes(self) -> None:
         if len(self.__pacientes) == 0:
             print('A lista de pacientes está vazia')
         else:
@@ -57,7 +62,7 @@ class ControladorPacientes:
                 self.__tela_paciente.mostra_paciente({'nome': paciente.nome, 'celular': paciente.celular, 
                                                     'cpf': paciente.cpf, 'data_nascimento': paciente.data_nascimento})
 
-    def excluir_paciente(self):
+    def excluir_paciente(self) -> None:
         self.lista_pacientes()
         cpf_paciente = self.__tela_paciente.seleciona_paciente()
         paciente = self.pega_paciente_por_cpf(cpf_paciente)
@@ -73,10 +78,10 @@ class ControladorPacientes:
         except PacienteInexistenteException as e:
             self.__tela_paciente.mostra_mensagem(e)
 
-    def retornar(self):
+    def retornar(self) -> None:
         self.__controlador_sistema.abre_tela()
 
-    def abre_tela(self):
+    def abre_tela(self) -> None:
         lista_opcoes = {1: self.incluir_paciente, 2: self.alterar_paciente, 3: self.lista_pacientes, 4: self.excluir_paciente, 0: self.retornar}
 
         continua = True

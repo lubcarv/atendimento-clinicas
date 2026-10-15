@@ -26,5 +26,5 @@ class TelaTipoAtendimento(TelaAbstrata):
         codigo = self.le_texto('CÓDIGO DO TIPO DE ATENDIMENTO QUE DESEJA SELECIONAR: ')
         return codigo
 
-    def mostra_mensagem(self, msg):
+    def mostra_mensagem(self, msg: str) -> None:
         print(msg)

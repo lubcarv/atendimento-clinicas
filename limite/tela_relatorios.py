@@ -10,7 +10,7 @@ class TelaRelatorio(TelaAbstrata):
         print('0. Retornar')
         return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4])
 
-    def mostra_relatorio(self, titulo, linhas):
+    def mostra_relatorio(self, titulo: str, linhas: list) -> None:
         print(f'====== {titulo} ======')
         for linha in linhas:
             print(linha)

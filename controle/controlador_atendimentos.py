@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from exceptions.acompanhante_menor_de_idade_exception import AcompanhanteMenorDeIdadeException
 from exceptions.horario_fora_do_funcionamento_exception import HorarioForaDoFuncionamentoException
 from exceptions.paciente_menor_de_idade_exception import PacienteMenorDeIdadeException
@@ -11,9 +13,12 @@ from exceptions.profissional_inexistente_exception import ProfissionalInexistent
 from exceptions.clinica_inexistente_exception import ClinicaInexistenteException
 from exceptions.tipo_atendimento_inexistente_exception import TipoAtendimentoInexistenteException
 
+if TYPE_CHECKING:
+    from controle.controlador_sistema import ControladorSistema
+
 class ControladorAtendimentos:
 
-    def __init__(self, controlador_sistema):
+    def __init__(self, controlador_sistema: ControladorSistema) -> None:
         self.__controlador_sistema = controlador_sistema
         self.__atendimentos = []
         self.__tela_atendimento = TelaAtendimento()
@@ -23,7 +28,7 @@ class ControladorAtendimentos:
     def atendimentos(self) -> list:
         return self.__atendimentos
 
-    def pega_atendimento_por_codigo(self, codigo: str):
+    def pega_atendimento_por_codigo(self, codigo: str) -> Atendimento | None:
         for atendimento in self.__atendimentos:
             if atendimento.codigo == codigo:
                 return atendimento

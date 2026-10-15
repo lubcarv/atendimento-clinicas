@@ -1,7 +1,7 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 from datetime import time
 from entidade.profissional import Profissional
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from entidade.atendimento import Atendimento
@@ -96,21 +96,21 @@ class Clinica:
             raise TypeError('O parâmetro profissionais precisa ser uma lista')
         self.__profissionais = profissionais
 
-    def incluir_profissional(self, profissional):
+    def incluir_profissional(self, profissional: Profissional) -> None:
         if not isinstance(profissional, Profissional):
             raise TypeError('O parâmetro profissional precisa ser do tipo Profissional')
         if profissional in self.__profissionais:
             raise ValueError('Este profissional já está vinculado à clínica')
         self.__profissionais.append(profissional)
 
-    def excluir_profissional(self, profissional):
+    def excluir_profissional(self, profissional: Profissional) -> None:
         if not isinstance(profissional, Profissional):
             raise TypeError('O parâmetro profissional precisa ser do tipo Profissional')
         if profissional not in self.__profissionais:
             raise ValueError('Este profissional não está vinculado à clínica')
         self.__profissionais.remove(profissional)
 
-    def esta_aberta(self, atendimento: Atendimento):
+    def esta_aberta(self, atendimento: Atendimento) -> None:
         inicio = atendimento.horario_inicio
         fim = atendimento.horario_fim
 

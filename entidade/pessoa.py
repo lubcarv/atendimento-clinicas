@@ -3,38 +3,38 @@ from datetime import date
 
 class Pessoa(ABC):
     @abstractmethod
-    def __init__(self, nome: str, celular: str, cpf: str, data_nascimento: date):
+    def __init__(self, nome: str, celular: str, cpf: str, data_nascimento: date) -> None:
         self.nome = nome
         self.celular = celular
         self.cpf = cpf
         self.data_nascimento = data_nascimento
 
     @property
-    def nome(self):
+    def nome(self) -> str:
         return self.__nome
 
     @nome.setter
-    def nome(self, nome):
+    def nome(self, nome) -> None:
         if not isinstance(nome, str):
             raise TypeError('Nome precisa ser uma string')
         self.__nome = nome
 
     @property
-    def celular(self):
+    def celular(self) -> str:
         return self.__celular
 
     @celular.setter
-    def celular(self, celular):
+    def celular(self, celular: str) -> None:
         if not isinstance(celular, str):
             raise TypeError('Celular precisa ser uma string')
         self.__celular = celular
 
     @property
-    def cpf(self):
+    def cpf(self) -> None:
         return self.__cpf
 
     @cpf.setter
-    def cpf(self, cpf):
+    def cpf(self, cpf: str) -> None:
         if not isinstance(cpf, str):
             raise TypeError('CPF precisa ser uma string')
         cpf = cpf.replace('-', '').replace('.', '')
@@ -46,11 +46,11 @@ class Pessoa(ABC):
         self.__cpf = cpf
 
     @property
-    def data_nascimento(self):
+    def data_nascimento(self) -> date:
         return self.__data_nascimento
 
     @data_nascimento.setter
-    def data_nascimento(self, data_nascimento: date):
+    def data_nascimento(self, data_nascimento: date) -> None:
         if not isinstance(data_nascimento, date):
             raise TypeError('A data de nascimento precisa ser do tipo date')
         self.__data_nascimento = data_nascimento

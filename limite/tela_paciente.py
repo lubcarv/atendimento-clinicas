@@ -23,7 +23,7 @@ class TelaPaciente(TelaAbstrata):
                 'cpf': cpf, 
                 'data_nascimento': data_nascimento}
 
-    def mostra_paciente(self, dados_paciente) -> None:
+    def mostra_paciente(self, dados_paciente: dict) -> None:
         print(f'NOME DO PACIENTE: {dados_paciente['nome']}')
         print(f'CELULAR DO PACIENTE: {dados_paciente['celular']}')
         print(f'CPF: {dados_paciente['cpf']}')
@@ -34,7 +34,7 @@ class TelaPaciente(TelaAbstrata):
         cpf = self.le_CPF('CPF do paciente que deseja selecionar: ')
         return cpf
 
-    def mostra_mensagem(self, msg) -> None:
+    def mostra_mensagem(self, msg: str) -> None:
         print(msg)
 
     

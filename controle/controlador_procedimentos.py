@@ -1,25 +1,30 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from exceptions.atendimento_inexistente_exception import AtendimentoInexistenteException
 from limite.tela_procedimento import TelaProcedimento
 from exceptions.procedimento_repetido_exception import ProcedimentoRepetidoException
 from exceptions.procedimento_inexistente_exception import ProcedimentoInexistenteException
 from exceptions.profissional_inexistente_exception import ProfissionalInexistenteException
 
+if TYPE_CHECKING:
+    from controlador_sistema import ControladorSistema
+    from entidade.atendimento import Atendimento
+    from entidade.procedimento import Procedimento
 
 class ControladorProcedimentos:
 
-    def __init__(self, controlador_sistema):
+    def __init__(self, controlador_sistema: ControladorSistema) -> None:
         self.__controlador_sistema = controlador_sistema
         self.__tela_procedimento = TelaProcedimento()
         self.__continua = True
 
-
-    def pega_procedimento_por_codigo(self, atendimento, codigo: str):
+    def pega_procedimento_por_codigo(self, atendimento: Atendimento, codigo: str) -> Procedimento | None:
         for procedimento in atendimento.procedimentos:
             if procedimento.codigo == codigo:
                 return procedimento
         return None
 
-    def __seleciona_atendimento(self):
+    def __seleciona_atendimento(self) -> Atendimento:
         controlador_atendimentos = self.__controlador_sistema.controlador_atendimentos()
         if not controlador_atendimentos.atendimentos:
             raise ValueError("Nenhum atendimento cadastrado.")
@@ -30,7 +35,7 @@ class ControladorProcedimentos:
             raise AtendimentoInexistenteException(codigo)
         return atendimento
 
-    def __mostra_procedimentos(self, atendimento):
+    def __mostra_procedimentos(self, atendimento: Atendimento) -> None:
         if not atendimento.procedimentos:
             self.__tela_procedimento.mostra_mensagem("Nenhum procedimento registrado neste atendimento.")
             return
@@ -41,7 +46,7 @@ class ControladorProcedimentos:
                 "custo": procedimento.custo,
                 "profissional": procedimento.profissional.nome})
 
-    def incluir_procedimento(self):
+    def incluir_procedimento(self) -> None:
         try:
             atendimento = self.__seleciona_atendimento()
             dados = self.__tela_procedimento.pega_dados_procedimento()
@@ -60,14 +65,14 @@ class ControladorProcedimentos:
                 ProfissionalInexistenteException, TypeError, ValueError) as e:
             self.__tela_procedimento.mostra_mensagem(e)
 
-    def lista_procedimentos(self):
+    def lista_procedimentos(self) -> None:
         try:
             atendimento = self.__seleciona_atendimento()
             self.__mostra_procedimentos(atendimento)
         except (AtendimentoInexistenteException, ValueError) as e:\
             self.__tela_procedimento.mostra_mensagem(e)
 
-    def alterar_procedimento(self):
+    def alterar_procedimento(self) -> None:
         try:
             atendimento = self.__seleciona_atendimento()
             if not atendimento.procedimentos:
@@ -96,7 +101,7 @@ class ControladorProcedimentos:
                 ProfissionalInexistenteException, TypeError, ValueError) as e:
             self.__tela_procedimento.mostra_mensagem(e)
 
-    def excluir_procedimento(self):
+    def excluir_procedimento(self) -> None:
         try:
             atendimento = self.__seleciona_atendimento()
             if not atendimento.procedimentos:
@@ -111,10 +116,10 @@ class ControladorProcedimentos:
         except (AtendimentoInexistenteException, ProcedimentoInexistenteException, ValueError) as e:
             self.__tela_procedimento.mostra_mensagem(e)
 
-    def retornar(self):
+    def retornar(self) -> None:
         self.__continua = False
 
-    def abre_tela(self):
+    def abre_tela(self) -> None:
         lista_opcoes = {1: self.incluir_procedimento, 2: self.alterar_procedimento,
                         3: self.lista_procedimentos, 4: self.excluir_procedimento,
                         0: self.retornar}

@@ -2,7 +2,7 @@ from entidade.profissional import Profissional
 
 
 class Procedimento:
-    def __init__(self, codigo: str, descricao: str, custo: float, profissional: Profissional):
+    def __init__(self, codigo: str, descricao: str, custo: float, profissional: Profissional) -> None:
         if not isinstance(codigo, str):
             raise TypeError("Código deve ser um texto")
         self.__codigo = codigo
@@ -19,7 +19,7 @@ class Procedimento:
         return self.__descricao
 
     @descricao.setter
-    def descricao(self, descricao: str):
+    def descricao(self, descricao: str) -> None:
         if not isinstance(descricao, str):
             raise TypeError("Descrição deve ser texto.")
         if not descricao.strip():
@@ -31,7 +31,7 @@ class Procedimento:
         return self.__custo
 
     @custo.setter
-    def custo(self, custo: float):
+    def custo(self, custo: float) -> None:
         if not isinstance(custo, (float, int)):
             raise TypeError("Custo deve ser um número")
         if custo <= 0:
@@ -43,7 +43,7 @@ class Procedimento:
         return self.__profissional
 
     @profissional.setter
-    def profissional(self, profissional: Profissional):
+    def profissional(self, profissional: Profissional) -> None:
         if not isinstance(profissional, Profissional):
             raise TypeError("Profissional deve ser do tipo Profissional.")
         self.__profissional = profissional

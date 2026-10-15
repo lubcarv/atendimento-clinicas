@@ -47,7 +47,7 @@ class TelaAtendimento(TelaAbstrata):
                  "data_nascimento": data_nascimento
         }
 
-    def mostra_atendimento(self, dados_atendimento: dict):
+    def mostra_atendimento(self, dados_atendimento: dict) -> None:
         print("\n____ Atendimento ____")
         print(f"CÓDIGO: {dados_atendimento['codigo']}")
         print(f"PACIENTE: {dados_atendimento['paciente']}")

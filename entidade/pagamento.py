@@ -1,7 +1,7 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from abc import abstractmethod, ABC
 from datetime import date
-
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from entidade.atendimento import Atendimento
@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 class Pagamento(ABC):
 
-    def __init__(self, codigo: str, data: date, valor_pago: float, atendimento: "Atendimento"):
+    def __init__(self, codigo: str, data: date, valor_pago: float, atendimento: Atendimento) -> None:
         if not  isinstance(codigo, str):
             raise TypeError("O código deve ser um texto.")
         self.__codigo = codigo
@@ -26,7 +26,7 @@ class Pagamento(ABC):
         return self.__data
 
     @data.setter
-    def data(self, data: date):
+    def data(self, data: date) -> None:
         if not isinstance(data, date):
             raise TypeError("A data do pagamento deve ser uma data.")
         self.__data = data
@@ -36,7 +36,7 @@ class Pagamento(ABC):
         return self.__valor_pago
 
     @valor_pago.setter
-    def valor_pago(self, valor_pago: float):
+    def valor_pago(self, valor_pago: float) -> None:
         if not isinstance(valor_pago, (int, float)):
             raise TypeError("Valor_pago deve ser um número.")
         if valor_pago <= 0:
@@ -44,11 +44,11 @@ class Pagamento(ABC):
         self.__valor_pago = valor_pago
 
     @property
-    def atendimento(self) -> "Atendimento":
+    def atendimento(self) -> Atendimento:
         return self.__atendimento
 
     @property
-    def paciente(self) -> "Paciente":
+    def paciente(self) -> Paciente:
         return self.__atendimento.paciente
 
     @abstractmethod

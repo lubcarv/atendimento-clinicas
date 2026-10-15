@@ -20,61 +20,61 @@ class ControladorSistema:
         self.__controlador_relatorios = ControladorRelatorios(self, self.__controlador_atendimentos)
         self.__tela_sistema = TelaSistema()
 
-    def controlador_pacientes(self):
+    def controlador_pacientes(self) -> ControladorPacientes:
         return self.__controlador_pacientes
 
-    def controlador_profissionais(self):
+    def controlador_profissionais(self) -> ControladorProfissionais:
         return self.__controlador_profissionais
 
-    def controlador_clinica(self):
+    def controlador_clinica(self) -> ControladorClinicas:
         return self.__controlador_clinica
 
-    def controlador_tipos_atendimento(self):
+    def controlador_tipos_atendimento(self) -> ControladorTiposAtendimento:
         return self.__controlador_tipos_atendimento
 
-    def controlador_atendimentos(self):
+    def controlador_atendimentos(self) -> ControladorAtendimentos:
         return self.__controlador_atendimentos
 
-    def controlador_procedimentos(self):
+    def controlador_procedimentos(self) -> ControladorProcedimentos:
         return self.__controlador_procedimentos
 
-    def controlador_pagamentos(self):
+    def controlador_pagamentos(self) -> ControladorPagamentos:
         return self.__controlador_pagamentos
 
-    def controlador_relatorios(self):
+    def controlador_relatorios(self) -> ControladorRelatorios:
         return self.__controlador_relatorios
 
-    def inicializa_sistema(self):
+    def inicializa_sistema(self) -> None:
         self.abre_tela()
 
-    def cadastra_pacientes(self):
+    def cadastra_pacientes(self) -> None:
         self.__controlador_pacientes.abre_tela()
 
-    def cadastra_profissionais(self):
+    def cadastra_profissionais(self) -> None:
         self.__controlador_profissionais.abre_tela()
 
-    def cadastra_clinica(self):
+    def cadastra_clinica(self) -> None:
         self.__controlador_clinica.abre_tela()
 
-    def cadastra_tipos_atendimento(self):
+    def cadastra_tipos_atendimento(self) -> None:
         self.__controlador_tipos_atendimento.abre_tela()
 
-    def cadastra_atendimentos(self):
+    def cadastra_atendimentos(self) -> None:
         return self.__controlador_atendimentos.abre_tela()
 
-    def cadastra_procedimentos(self):
+    def cadastra_procedimentos(self) -> None:
         return self.__controlador_procedimentos.abre_tela()
 
-    def cadastra_pagamentos(self):
+    def cadastra_pagamentos(self) -> None:
         return self.__controlador_pagamentos.abre_tela()
 
-    def cadastra_relatorios(self):
+    def cadastra_relatorios(self) -> None:
         return self.__controlador_relatorios.abre_tela()
 
-    def encerra_sistema(self):
+    def encerra_sistema(self) -> None:
         exit(0)
 
-    def abre_tela(self):
+    def abre_tela(self) -> None:
         lista_opcoes = {1: self.cadastra_pacientes, 2: self.cadastra_profissionais,
                         3: self.cadastra_clinica, 4: self.cadastra_tipos_atendimento,
                         5: self.cadastra_atendimentos, 6: self.cadastra_procedimentos,

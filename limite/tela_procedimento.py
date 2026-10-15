@@ -23,7 +23,7 @@ class TelaProcedimento(TelaAbstrata):
                  "cpf_profissional": self.le_CPF("CPF DO PROFISSIONAL: ")}
         return dados
 
-    def mostra_procedimento(self, dados_procedimento: dict):
+    def mostra_procedimento(self, dados_procedimento: dict) -> None:
         print(f"Código: {dados_procedimento['codigo']} | Descrição: {dados_procedimento['descricao']} | "
               f"Custo: R$ {dados_procedimento['custo']:.2f} | "
               f"Profissional: {dados_procedimento['profissional']}")

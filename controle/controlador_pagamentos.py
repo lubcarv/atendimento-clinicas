@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from limite.tela_pagamento import TelaPagamento
 from entidade.pagamento_pix import PagamentoPix
 from entidade.pagamento_cartao import PagamentoCartao
@@ -7,15 +9,19 @@ from exceptions.pagamento_inexistente_exception import PagamentoInexistenteExcep
 from exceptions.pagamento_apos_atendimento_exception import PagamentoAposAtendimentoException
 from exceptions.valor_pago_excedente_exception import ValorPagoExcedenteException
 
+if TYPE_CHECKING:
+    from controle.controlador_sistema import ControladorSistema
+    from entidade.pagamento import Pagamento
+    from entidade.atendimento import Atendimento
 
 class ControladorPagamentos:
 
-    def __init__(self, controlador_sistema):
+    def __init__(self, controlador_sistema: ControladorSistema):
         self.__controlador_sistema = controlador_sistema
         self.__tela_pagamento = TelaPagamento()
         self.__continua = True
 
-    def pega_pagamento_por_codigo(self, atendimento, codigo: str):
+    def pega_pagamento_por_codigo(self, atendimento: Atendimento, codigo: str) -> Pagamento | None:
         for pagamento in atendimento.pagamentos:
             if pagamento.codigo == codigo:
                 return pagamento
@@ -23,7 +29,7 @@ class ControladorPagamentos:
 
     # ---------- métodos auxiliares (privados)
 
-    def __seleciona_atendimento(self):
+    def __seleciona_atendimento(self) -> Atendimento:
         controlador_atendimentos = self.__controlador_sistema.controlador_atendimentos()
         if not controlador_atendimentos.atendimentos:
             raise ValueError("Nenhum atendimento cadastrado.")
@@ -34,7 +40,7 @@ class ControladorPagamentos:
             raise AtendimentoInexistenteException(codigo)
         return atendimento
 
-    def __mostra_pagamentos(self, atendimento):
+    def __mostra_pagamentos(self, atendimento: Atendimento) -> None:
         if not atendimento.pagamentos:
             self.__tela_pagamento.mostra_mensagem("Nenhum pagamento registrado neste atendimento.")
             return
@@ -46,7 +52,7 @@ class ControladorPagamentos:
                 "valor_pago": pagamento.valor_pago})
         self.__tela_pagamento.mostra_mensagem(f"Valor restante: R$ {atendimento.valor_restante():.2f}")
 
-    def __modalidade_de(self, pagamento) -> int:
+    def __modalidade_de(self, pagamento: Pagamento) -> int:
         if isinstance(pagamento, PagamentoPix):
             return 2
         if isinstance(pagamento, PagamentoCartao):
@@ -55,7 +61,7 @@ class ControladorPagamentos:
 
     # ---------- CRUD
 
-    def incluir_pagamento(self):
+    def incluir_pagamento(self) -> None:
         try:
             atendimento = self.__seleciona_atendimento()
             modalidade = self.__tela_pagamento.seleciona_modalidade()
@@ -79,7 +85,7 @@ class ControladorPagamentos:
                 TypeError, ValueError) as e:
             self.__tela_pagamento.mostra_mensagem(e)
 
-    def alterar_pagamento(self):
+    def alterar_pagamento(self) -> None:
         try:
             atendimento = self.__seleciona_atendimento()
             if not atendimento.pagamentos:
@@ -117,14 +123,14 @@ class ControladorPagamentos:
                 TypeError, ValueError) as e:
             self.__tela_pagamento.mostra_mensagem(e)
 
-    def lista_pagamentos(self):
+    def lista_pagamentos(self) -> None:
         try:
             atendimento = self.__seleciona_atendimento()
             self.__mostra_pagamentos(atendimento)
         except (AtendimentoInexistenteException, ValueError) as e:
             self.__tela_pagamento.mostra_mensagem(e)
 
-    def excluir_pagamento(self):
+    def excluir_pagamento(self) -> None:
         try:
             atendimento = self.__seleciona_atendimento()
             if not atendimento.pagamentos:
@@ -139,10 +145,10 @@ class ControladorPagamentos:
         except (AtendimentoInexistenteException, PagamentoInexistenteException, ValueError) as e:
             self.__tela_pagamento.mostra_mensagem(e)
 
-    def retornar(self):
+    def retornar(self) -> None:
         self.__continua = False
 
-    def abre_tela(self):
+    def abre_tela(self) -> None:
         lista_opcoes = {1: self.incluir_pagamento, 2: self.alterar_pagamento,
                         3: self.lista_pagamentos, 4: self.excluir_pagamento,
                         0: self.retornar}
