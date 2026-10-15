@@ -13,12 +13,12 @@ class TelaAtendimento(TelaAbstrata):
         return self.le_num_inteiro("Escolha a opção: ", [0, 1, 2, 3, 4])
 
     def pega_dados_atendimento(self) -> dict:
-        print("____ Dados do atendimento ____")
-        codigo = self.le_num_inteiro("Código: ")
-        cpf_paciente = self.le_texto("CPF do paciente: ")
+        print("\n____ Dados do atendimento ____")
+        codigo = self.le_texto("Código: ")
+        cpf_paciente = self.le_CPF("CPF do paciente: ")
         cpf_profissional = self.le_CPF("CPF do profissional: ")
-        codigo_clinica = self.le_num_inteiro("Código da clínica: ")
-        codigo_tipo_atendimento = self.le_num_inteiro("Código do tipo de atendimento: ")
+        codigo_clinica = self.le_texto("Código da clínica: ")
+        codigo_tipo_atendimento = self.le_texto("Código do tipo de atendimento: ")
         data = self.le_data("Data do atendimento (dd/mm/aaaa): ")
         horario_inicio = self.le_horario("Horário de início (hh:mm): ")
         horario_fim = self.le_horario("Horário de fim (hh:mm): ")
@@ -35,7 +35,7 @@ class TelaAtendimento(TelaAbstrata):
                 "valor": valor}
 
     def pega_dados_acompanhante(self) -> dict:
-        print("____ Dados do acompanhante ____")
+        print("\n____ Dados do acompanhante ____")
         nome = self.le_texto("Nome do acompanhante: ")
         celular = self.le_texto("Celular do acompanhante: ")
         cpf = self.le_CPF("CPF do acompanhante: ")
@@ -48,27 +48,30 @@ class TelaAtendimento(TelaAbstrata):
         }
 
     def mostra_atendimento(self, dados_atendimento: dict):
-        print("____ Atendimento ____")
-        print(f"Código: {dados_atendimento['codigo']}")
-        print(f"Paciente: {dados_atendimento['paciente']}")
-        print(f"Acompanhante: {dados_atendimento['acompanhante']}")
-        print(f"Profissional: {dados_atendimento['profissional']}")
-        print(f"Clínica: {dados_atendimento['clinica']}")
-        print(f"Tipo de atendimento: {dados_atendimento['tipo_atendimento']}")
-        print(f"Data: {dados_atendimento['data'].strftime('%d/%m/%Y')}")
-        print(f"Horário: {dados_atendimento['horario_inicio'].strftime('%H:%M')} às "
+        print("\n____ Atendimento ____")
+        print(f"CÓDIGO: {dados_atendimento['codigo']}")
+        print(f"PACIENTE: {dados_atendimento['paciente']}")
+        print(f"ACOMPANHANTE: {dados_atendimento['acompanhante']}")
+        print(f"PROFISSIONAL: {dados_atendimento['profissional']}")
+        print(f"CLÍNICA: {dados_atendimento['clinica']}")
+        print(f"TIPO DE ATENDIMENTO: {dados_atendimento['tipo_atendimento']}")
+        print(f"DATA (dd/mm/aaaa): {dados_atendimento['data'].strftime('%d/%m/%Y')}")
+        print(f"HORÁRIO: {dados_atendimento['horario_inicio'].strftime('%H:%M')} às "
               f"{dados_atendimento['horario_fim'].strftime('%H:%M')}")
-        print(f"Valor: R$ {dados_atendimento['valor']:.2f}")
-        print(f"Valor pago: R$ {dados_atendimento['valor_pago']:.2f}")
-        print(f"Valor restante: R$ {dados_atendimento['valor_restante']:.2f}")
+        print(f"VALOR DO ATENDIMENTO: R$ {dados_atendimento['valor']:.2f}")
+        print(f"PROCEDIMENTO: R$ {dados_atendimento['valor_procedimentos']:.2f}")
+        print(f"VALOR TOTAL: R$ {dados_atendimento['valor_total']:.2f}")
+        print(f"VALOR PAGO: R$ {dados_atendimento['valor_pago']:.2f}")
+        print(f"VALOR RESTANTE: R$ {dados_atendimento['valor_restante']:.2f}")
 
     def pergunta_acompanhante(self, nome_paciente: str) -> bool:
         print(f"O paciente {nome_paciente} é menor de idade e só pode ser atendido com um acompanhante maior de idade.")
+        print("-> Sem acompanhante, o atendimento não será registrado.")
         opcao = self.le_num_inteiro("Deseja informar o acompanhante agora? (1 - Sim, 0 - Não): ", [0, 1])
         return opcao == 1
 
-    def seleciona_atendimento(self) -> int:
-        return self.le_num_inteiro("Código do atendimento: ")
+    def seleciona_atendimento(self) -> str:
+        return self.le_texto("Código do atendimento: ")
 
 
 

@@ -3,7 +3,7 @@ from entidade.pagamento import Pagamento
 
 
 class PagamentoCartao(Pagamento):
-    def __init__(self, codigo: int, data: date, valor_pago: float, atendimento: "Atendimento", numero_cartao: str, bandeira: str):
+    def __init__(self, codigo: str, data: date, valor_pago: float, atendimento: "Atendimento", numero_cartao: str, bandeira: str):
         super().__init__(codigo, data, valor_pago, atendimento)
         self.numero_cartao = numero_cartao
         self.bandeira = bandeira

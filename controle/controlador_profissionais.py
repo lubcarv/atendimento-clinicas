@@ -25,6 +25,7 @@ class ControladorProfissionais:
                                             dados_profissional['cpf'], dados_profissional['data_nascimento'],
                                             dados_profissional['especialidade'], dados_profissional['registro_profissional'])
                 self.__profissionais.append(profissional)
+                self.__tela_profissional.mostra_mensagem('Profissional incluído com sucesso!')
             else:
                 raise ProfissionalRepetidoException(cpf)
 
@@ -45,6 +46,7 @@ class ControladorProfissionais:
                 profissional.data_nascimento = novos_dados_profissional['data_nascimento']
                 profissional.especialidade = novos_dados_profissional['especialidade']
                 profissional.registro_profissional = novos_dados_profissional['registro_profissional']
+                self.__tela_profissional.mostra_mensagem('Profissional alterado com sucesso!')
                 self.lista_profissionais()
             else:
                 raise ProfissionalInexistenteException(cpf_profissional)
@@ -66,6 +68,7 @@ class ControladorProfissionais:
         try:
             if profissional is not None:
                 self.__profissionais.remove(profissional)
+                self.__tela_profissional.mostra_mensagem('Profissional excluído com sucesso!')
                 self.lista_profissionais()
             else:
                 raise ProfissionalInexistenteException(cpf_profissional)

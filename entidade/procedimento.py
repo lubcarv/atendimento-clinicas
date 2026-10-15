@@ -2,16 +2,16 @@ from entidade.profissional import Profissional
 
 
 class Procedimento:
-    def __init__(self, codigo: int, descricao: str, custo: float, profissional: Profissional):
-        if not isinstance(codigo, int):
-            raise TypeError("Código deve ser um número inteiro")
+    def __init__(self, codigo: str, descricao: str, custo: float, profissional: Profissional):
+        if not isinstance(codigo, str):
+            raise TypeError("Código deve ser um texto")
         self.__codigo = codigo
         self.descricao = descricao
         self.custo = custo
         self.profissional = profissional
 
     @property
-    def codigo(self) -> int:
+    def codigo(self) -> str:
         return self.__codigo
 
     @property

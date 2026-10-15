@@ -23,7 +23,7 @@ class ControladorAtendimentos:
     def atendimentos(self) -> list:
         return self.__atendimentos
 
-    def pega_atendimento_por_codigo(self, codigo: int):
+    def pega_atendimento_por_codigo(self, codigo: str):
         for atendimento in self.__atendimentos:
             if atendimento.codigo == codigo:
                 return atendimento
@@ -38,7 +38,7 @@ class ControladorAtendimentos:
         if paciente is None:
             raise PacienteInexistenteException(dados["cpf_paciente"])
 
-        profissional = sistema.controlador_profissionais.pega_profissional_por_cpf(dados["cpf_profissional"])
+        profissional = sistema.controlador_profissionais().pega_profissional_por_cpf(dados["cpf_profissional"])
         if profissional is None:
             raise ProfissionalInexistenteException(dados["cpf_profissional"])
 
@@ -46,17 +46,19 @@ class ControladorAtendimentos:
         if clinica is None:
             raise ClinicaInexistenteException(dados["codigo_clinica"])
 
-        tipo_atendimento = sistema.controlador_tipos_atendimento.pega_tipo_atendimento_por_codigo(
+        tipo_atendimento = sistema.controlador_tipos_atendimento().pega_tipo_atendimento_por_codigo(
             dados["codigo_tipo_atendimento"])
         if tipo_atendimento is None:
             raise TipoAtendimentoInexistenteException(dados["codigo_tipo_atendimento"])
 
         return paciente, profissional, clinica, tipo_atendimento
 
-    def __verifica_regras_da_clinica(self, profissional, clinica, horario_inicio, horario_fim):
+    def __verifica_regras_da_clinica(self, atendimento: Atendimento):
+        profissional = atendimento.profissional
+        clinica = atendimento.clinica
         if profissional not in clinica.profissionais:
             raise ProfissionalNaoVinculadoException(profissional.nome, clinica.nome)
-        if not clinica.esta_aberta(horario_inicio, horario_fim):
+        if not clinica.esta_aberta(atendimento):
             raise HorarioForaDoFuncionamentoException(clinica.nome)
 
     def __verifica_acompanhante(self, atendimento: Atendimento):
@@ -69,7 +71,19 @@ class ControladorAtendimentos:
         atendimento.incluir_acompanhante(dados["nome"], dados["celular"],
                                          dados["cpf"], dados["data_nascimento"])
 
-    # ---------- CRUD
+    def __verifica_conflito_de_horario(self, novo: Atendimento):
+        for existente in self.__atendimentos:
+            if existente.codigo == novo.codigo or existente.data != novo.data:
+                continue
+            se_sobrepoem = novo.horario_inicio < existente.horario_fim and existente.horario_inicio < novo.horario_fim
+            if not se_sobrepoem:
+                continue
+            if existente.profissional is novo.profissional:
+                raise ValueError(f"O profissional {novo.profissional.nome} já tem o atendimento "
+                                 f"{existente.codigo} nesse horário.")
+            if existente.paciente is novo.paciente:
+                raise ValueError(f"O paciente {novo.paciente.nome} já tem o atendimento "
+                                 f"{existente.codigo} nesse horário.")
 
     def incluir_atendimento(self):
         dados = self.__tela_atendimento.pega_dados_atendimento()
@@ -78,12 +92,11 @@ class ControladorAtendimentos:
                 raise AtendimentoRepetidoException(dados["codigo"])
 
             paciente, profissional, clinica, tipo_atendimento = self.__busca_cadastros(dados)
-            self.__verifica_regras_da_clinica(profissional, clinica,
-                                              dados["horario_inicio"], dados["horario_fim"])
-
             atendimento = Atendimento(dados["codigo"], clinica, paciente, profissional,
                                       tipo_atendimento, dados["data"], dados["horario_inicio"],
                                       dados["horario_fim"], dados["valor"])
+            self.__verifica_regras_da_clinica(atendimento)
+            self.__verifica_conflito_de_horario(atendimento)
             self.__verifica_acompanhante(atendimento)
 
             self.__atendimentos.append(atendimento)
@@ -98,6 +111,9 @@ class ControladorAtendimentos:
             self.__tela_atendimento.mostra_mensagem(e)
 
     def alterar_atendimento(self):
+        if not self.__atendimentos:
+            self.__tela_atendimento.mostra_mensagem("Nenhum atendimento cadastrado.")
+            return
         self.lista_atendimentos()
         codigo = self.__tela_atendimento.seleciona_atendimento()
         try:
@@ -107,14 +123,14 @@ class ControladorAtendimentos:
 
             dados = self.__tela_atendimento.pega_dados_atendimento()
             paciente, profissional, clinica, tipo_atendimento = self.__busca_cadastros(dados)
-            self.__verifica_regras_da_clinica(profissional, clinica,
-                                              dados["horario_inicio"], dados["horario_fim"])
-            if dados["valor"] < atendimento.valor_pago():
-                raise ValueError("O novo valor não pode ser menor que o valor já pago.")
 
+            if dados["valor"] + atendimento.valor_procedimentos() < atendimento.valor_pago():
+                raise ValueError("Com esse valor, o total do atendimento ficaria menor que o valor já pago.")
             provisorio = Atendimento(atendimento.codigo, clinica, paciente, profissional,
                                      tipo_atendimento, dados["data"], dados["horario_inicio"],
                                      dados["horario_fim"], dados["valor"])
+            self.__verifica_regras_da_clinica(provisorio)
+            self.__verifica_conflito_de_horario(provisorio)
             if atendimento.acompanhante is None:
                 self.__verifica_acompanhante(provisorio)
 
@@ -160,10 +176,15 @@ class ControladorAtendimentos:
                 "horario_inicio": atendimento.horario_inicio,
                 "horario_fim": atendimento.horario_fim,
                 "valor": atendimento.valor,
+                "valor_procedimentos": atendimento.valor_procedimentos(),
+                "valor_total": atendimento.valor_total(),
                 "valor_pago": atendimento.valor_pago(),
                 "valor_restante": atendimento.valor_restante()})
 
     def excluir_atendimento(self):
+        if not self.__atendimentos:
+            self.__tela_atendimento.mostra_mensagem("Nenhum atendimento cadastrado.")
+            return
         self.lista_atendimentos()
         codigo = self.__tela_atendimento.seleciona_atendimento()
         try:

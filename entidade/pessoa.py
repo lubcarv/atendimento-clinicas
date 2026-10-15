@@ -50,7 +50,9 @@ class Pessoa(ABC):
         return self.__data_nascimento
 
     @data_nascimento.setter
-    def data_nascimento(self, data_nascimento):
+    def data_nascimento(self, data_nascimento: date):
+        if not isinstance(data_nascimento, date):
+            raise TypeError('A data de nascimento precisa ser do tipo date')
         self.__data_nascimento = data_nascimento
 
     def idade(self, data_referencia: date) -> int:
@@ -76,4 +78,4 @@ class Pessoa(ABC):
         idade = data_referencia.year - self.__data_nascimento.year
         if (data_referencia.month, data_referencia.day) < (self.__data_nascimento.month, self.__data_nascimento.day):
             idade -= 1
-        return False
+        return idade >= 18

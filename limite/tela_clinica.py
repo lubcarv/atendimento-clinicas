@@ -3,7 +3,7 @@ from limite.tela_abstrata import TelaAbstrata
 
 class TelaClinica(TelaAbstrata):
     def tela_opcoes(self) -> int:
-        print('====== Sistema de Clínicas ======')
+        print('\n====== Sistema de Clínicas ======')
         print('1. Incluir Clínica')
         print('2. Alterar Clínica')
         print('3. Lista de Clínicas')
@@ -14,7 +14,7 @@ class TelaClinica(TelaAbstrata):
         return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4, 5, 6])
 
     def pega_dados_clinica(self) -> dict:
-        print("====== DADOS DA CLÍNICA ======")
+        print("\n====== DADOS DA CLÍNICA ======")
         codigo = self.le_texto('Código: ')
         nome = self.le_texto('Nome: ')
         localizacao = self.le_texto('Localização: ')
@@ -29,7 +29,7 @@ class TelaClinica(TelaAbstrata):
                 'horário_fechamento': horario_fechamento}
 
     def mostra_clinica(self, dados_clinica: dict) -> None:
-        print('====== DETALHES DA CLÍNICA ======')
+        print('\n====== DETALHES DA CLÍNICA ======')
         print(f'NOME DA CLÍNICA: {dados_clinica["nome"]}')
         print(f'CÓDIGO DA CLÍNICA: {dados_clinica['código']}')
         print(f'LOCALIZAÇÃO DA CLÍNICA: {dados_clinica['localização']}')
@@ -53,7 +53,7 @@ class TelaClinica(TelaAbstrata):
         return codigo
 
     def seleciona_profissional(self) -> str:
-        cpf = self.le_texto('Digite o CPF do profissional que deseja vincular: ')
+        cpf = self.le_CPF('Digite o CPF do profissional que deseja vincular: ')
         return cpf
 
     def mostra_mensagem(self, msg) -> None:

@@ -2,7 +2,7 @@ from limite.tela_abstrata import TelaAbstrata
 
 class TelaPaciente(TelaAbstrata):
     def tela_opcoes(self) -> int:
-        print('====== Sistema de Pacientes ======')
+        print('\n====== Sistema de Pacientes ======')
         print('1. Incluir Paciente')
         print('2. Alterar Paciente')
         print('3. Listar Pacientes')
@@ -12,7 +12,7 @@ class TelaPaciente(TelaAbstrata):
         return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4])
 
     def pega_dados_paciente(self) -> dict:
-        print("====== DADOS DO PACIENTE ======")
+        print("\n====== DADOS DO PACIENTE ======")
         nome = self.le_texto('Nome: ')
         celular = self.le_texto('Celular: ')
         cpf = self.le_CPF('CPF: ')
@@ -27,7 +27,7 @@ class TelaPaciente(TelaAbstrata):
         print(f'NOME DO PACIENTE: {dados_paciente['nome']}')
         print(f'CELULAR DO PACIENTE: {dados_paciente['celular']}')
         print(f'CPF: {dados_paciente['cpf']}')
-        print(f'DATA DE NASCIMENTO: {dados_paciente['data_nascimento']}')
+        print(f'DATA DE NASCIMENTO (dd/mm/aaaa): {dados_paciente['data_nascimento']}')
         print('\n')
 
     def seleciona_paciente(self) -> str:

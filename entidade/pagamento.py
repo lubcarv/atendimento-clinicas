@@ -9,16 +9,16 @@ if TYPE_CHECKING:
 
 class Pagamento(ABC):
 
-    def __init__(self, codigo: int, data: date, valor_pago: float, atendimento: "Atendimento"):
-        if not  isinstance(codigo, int):
-            raise TypeError("O código deve ser um número inteiro.")
+    def __init__(self, codigo: str, data: date, valor_pago: float, atendimento: "Atendimento"):
+        if not  isinstance(codigo, str):
+            raise TypeError("O código deve ser um texto.")
         self.__codigo = codigo
         self.data = data
         self.valor_pago = valor_pago
         self.__atendimento = atendimento
 
     @property
-    def codigo(self) -> int:
+    def codigo(self) -> str:
         return self.__codigo
 
     @property

@@ -2,7 +2,7 @@ from limite.tela_abstrata import TelaAbstrata
 
 class TelaProfissional(TelaAbstrata):
     def tela_opcoes(self) -> int:
-        print('====== SISTEMA DE PROFISSIONAIS ======')
+        print('\n====== SISTEMA DE PROFISSIONAIS ======')
         print('1. Incluir Profissional')
         print('2. Alterar Profissional')
         print('3. Listar Profissionais')
@@ -11,7 +11,7 @@ class TelaProfissional(TelaAbstrata):
         return self.le_num_inteiro('Escolha a opção: ', [0, 1, 2, 3, 4])
 
     def pega_dados_profissional(self) -> dict:
-        print('======= DADOS DO PROFISSIONAL ======')
+        print('\n======= DADOS DO PROFISSIONAL ======')
         nome = self.le_texto('NOME DO PROFISSIONAL: ')
         celular = self.le_texto('CELULAR DO PROFISSIONAL: ')
         cpf = self.le_CPF('CPF DO PROFISSIONAL: ')

@@ -23,6 +23,8 @@ class ControladorTiposAtendimento:
             if tipo_atendimento == None:
                 tipo_atendimento = TipoAtendimento(dados_tipo_atendimento['código'], dados_tipo_atendimento['nome'])
                 self.__tipos_atendimento.append(tipo_atendimento)
+                self.__tela_tipo_atendimento.mostra_mensagem('Tipo de atendimento incluído com sucesso!')
+
             else:
                 raise TipoAtendimentoRepetidoException
 
@@ -39,6 +41,7 @@ class ControladorTiposAtendimento:
                 novos_dados_tipo_atendimento = self.__tela_tipo_atendimento.pega_dados_tipo_atendimento()
                 tipo_atendimento.codigo = novos_dados_tipo_atendimento['código']
                 tipo_atendimento.nome = novos_dados_tipo_atendimento['nome']
+                self.__tela_tipo_atendimento.mostra_mensagem('Tipo de atendimento alterado com sucesso!')
             else:
                 raise TipoAtendimentoInexistenteException
 
@@ -57,6 +60,7 @@ class ControladorTiposAtendimento:
         try:
             if tipo_atendimento is not None:
                 self.__tipos_atendimento.remove(tipo_atendimento)
+                self.__tela_tipo_atendimento.mostra_mensagem('Tipo de atendimento removido com sucesso!')
                 self.lista_tipos_atendimento()
             else:
                 raise TipoAtendimentoInexistenteException

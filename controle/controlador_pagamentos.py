@@ -15,7 +15,7 @@ class ControladorPagamentos:
         self.__tela_pagamento = TelaPagamento()
         self.__continua = True
 
-    def pega_pagamento_por_codigo(self, atendimento, codigo: int):
+    def pega_pagamento_por_codigo(self, atendimento, codigo: str):
         for pagamento in atendimento.pagamentos:
             if pagamento.codigo == codigo:
                 return pagamento
@@ -91,7 +91,7 @@ class ControladorPagamentos:
                 raise PagamentoInexistenteException(codigo)
 
             modalidade = self.__modalidade_de(pagamento)
-            dados = self.__tela_pagamento.pega_dados_pagamento(modalidade)
+            dados = self.__tela_pagamento.pega_dados_pagamento(modalidade, pede_codigo=False)
 
             # As regras são conferidas ANTES de mudar qualquer coisa.
             if dados["data"] > atendimento.data:

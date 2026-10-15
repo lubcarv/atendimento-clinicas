@@ -1,10 +1,10 @@
 class TipoAtendimento:
-    def __init__(self, codigo: int, nome: str) -> None:
+    def __init__(self, codigo: str, nome: str) -> None:
         self.__codigo = codigo
         self.__nome = nome
 
     @property
-    def codigo(self) -> int:
+    def codigo(self) -> str:
         return self.__codigo
 
     @codigo.setter

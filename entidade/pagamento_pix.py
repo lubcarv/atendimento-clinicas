@@ -4,7 +4,7 @@ from entidade.pagamento import Pagamento
 
 
 class PagamentoPix(Pagamento):
-    def __init__(self, codigo: int, data: date, valor_pago: float, atendimento: "Atendimento", cpf_pagador: str):
+    def __init__(self, codigo: str, data: date, valor_pago: float, atendimento: "Atendimento", cpf_pagador: str):
         super().__init__(codigo, data, valor_pago, atendimento)
         self.cpf_pagador = cpf_pagador
 

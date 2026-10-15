@@ -29,14 +29,14 @@ class ControladorRelatorios:
 
         ordenados = sorted(
             self.__controlador_atendimentos.atendimentos,
-            key=lambda a: a.valor, reverse=True,
+            key=lambda a: a.valor_total(), reverse=True,
         )
         linhas = ['-- Mais caros --']
         for pos, a in enumerate(ordenados[:qtd_linhas], start=1):
-            linhas.append(f'{pos}º {a.clinica.nome} - {a.procedimento.nome} - R$ {a.valor:.2f}')
+            linhas.append(f'{pos}º {a.clinica.nome} - {a.procedimento.nome} - R$ {a.valor_total():.2f}')
             linhas.append(f'-- Mais baratos --')
             for pos, a in enumerate(reversed(ordenados[-qtd_linhas]), start=1):
-                linhas.append(f'{pos}º {a.clinica.nome} - {a.procedimento.nome} - R$ {a.valor:.2f}')
+                linhas.append(f'{pos}º {a.clinica.nome} - {a.procedimento.nome} - R$ {a.valor_total():.2f}')
         self.__tela_relatorio.mostra_relatorio(titulo, linhas)
 
     def procedimentos_mais_realizados(self):

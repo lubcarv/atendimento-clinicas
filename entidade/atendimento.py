@@ -15,11 +15,11 @@ from exceptions.valor_pago_excedente_exception import ValorPagoExcedenteExceptio
 
 
 class Atendimento:
-    def __init__(self, codigo: int, clinica: Clinica, paciente: Paciente, profissional: Profissional,
+    def __init__(self, codigo: str, clinica: Clinica, paciente: Paciente, profissional: Profissional,
                  tipo_atendimento: TipoAtendimento, data: date, horario_inicio: time, horario_fim: time,
                  valor: float):
-        if not isinstance(codigo, int):
-            raise TypeError("O código deve ser um número inteiro.")
+        if not isinstance(codigo, str):
+            raise TypeError("O código deve ser um texto.")
         self.__codigo = codigo
         self.clinica = clinica
         self.paciente = paciente
@@ -34,7 +34,7 @@ class Atendimento:
         self.__pagamentos = []
 
     @property
-    def codigo(self) -> int:
+    def codigo(self) -> str:
         return self.__codigo
 
     @property
@@ -142,30 +142,32 @@ class Atendimento:
     def excluir_acompanhante(self):
         self.__acompanhante = None
 
-    def incluir_procedimento(self, codigo: int, descricao: str, custo: float, profissional: Profissional):
+    def incluir_procedimento(self, codigo: str, descricao: str, custo: float, profissional: Profissional):
         procedimento = Procedimento(codigo, descricao, custo, profissional)
         self.__procedimentos.append(procedimento)
 
     def excluir_procedimento(self, procedimento: Procedimento):
         if procedimento not in self.__procedimentos:
             raise ValueError("Este procedimento não pertence a este atendimento.")
+        if self.valor_total() - procedimento.custo < self.valor_pago():
+            raise ValueError("Não é possível excluir: o valor já pago ficaria maior que o total do atendimento.")
         self.__procedimentos.remove(procedimento)
 
-    def incluir_pagamento_dinheiro(self, codigo: int, data: date, valor_pago: float):
+    def incluir_pagamento_dinheiro(self, codigo: str, data: date, valor_pago: float):
         if data > self.__data:
             raise PagamentoAposAtendimentoException(data, self.__data)
         if valor_pago > self.valor_restante():
             raise ValorPagoExcedenteException(valor_pago, self.valor_restante())
         self.__pagamentos.append(PagamentoDinheiro(codigo, data, valor_pago, self))
 
-    def incluir_pagamento_pix(self, codigo: int, data: date, valor_pago: float, cpf_pagador: str):
+    def incluir_pagamento_pix(self, codigo: str, data: date, valor_pago: float, cpf_pagador: str):
         if data > self.__data:
             raise PagamentoAposAtendimentoException(data, self.__data)
         if valor_pago > self.valor_restante():
             raise ValorPagoExcedenteException(valor_pago, self.valor_restante())
         self.__pagamentos.append(PagamentoPix(codigo, data, valor_pago, self, cpf_pagador))
 
-    def incluir_pagamento_cartao(self, codigo: int, data: date, valor_pago: float, numero_cartao: str, bandeira: str):
+    def incluir_pagamento_cartao(self, codigo: str, data: date, valor_pago: float, numero_cartao: str, bandeira: str):
         if data > self.__data:
             raise PagamentoAposAtendimentoException(data, self.__data)
         if valor_pago > self.valor_restante():
@@ -177,8 +179,14 @@ class Atendimento:
             raise ValueError("Este pagamento não pertence a este atendimento.")
         self.__pagamentos.remove(pagamento)
 
+    def valor_procedimentos(self) -> float:
+        return sum(procedimento.custo for procedimento in self.__procedimentos)
+
+    def valor_total(self) -> float:
+        return self.__valor + self.valor_procedimentos()
+
     def valor_restante(self) -> float:
-        return self.__valor - self.valor_pago()
+        return self.valor_total() - self.valor_pago()
 
     def valor_pago(self) -> float:
         return sum(pagamento.valor_pago for pagamento in self.__pagamentos)

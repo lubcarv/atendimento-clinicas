@@ -2,7 +2,7 @@ from limite.tela_abstrata import TelaAbstrata
 
 class TelaRelatorio(TelaAbstrata):
     def tela_opcoes(self) -> int:
-        print('====== SISTEMA DE RELATÓRIOS ======')
+        print('\n====== SISTEMA DE RELATÓRIOS ======')
         print('1. Clinicas com Mais Atendimentos')
         print('2. Atendimentos Mais Caros e Mais Baratos')
         print('3. Procedimentos Mais Realizados')

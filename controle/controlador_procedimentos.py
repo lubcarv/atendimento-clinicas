@@ -13,7 +13,7 @@ class ControladorProcedimentos:
         self.__continua = True
 
 
-    def pega_procedimento_por_codigo(self, atendimento, codigo: int):
+    def pega_procedimento_por_codigo(self, atendimento, codigo: str):
         for procedimento in atendimento.procedimentos:
             if procedimento.codigo == codigo:
                 return procedimento
@@ -83,6 +83,10 @@ class ControladorProcedimentos:
                 dados["cpf_profissional"])
             if profissional is None:
                 raise ProfissionalInexistenteException(dados["cpf_profissional"])
+
+            novo_total = atendimento.valor_total() - procedimento.custo + dados["custo"]
+            if novo_total < atendimento.valor_pago():
+                raise ValueError("Com esse custo, o total do atendimento ficaria menor que o valor já pago.")
 
             procedimento.custo = dados["custo"]
             procedimento.descricao = dados["descricao"]

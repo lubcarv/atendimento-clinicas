@@ -18,7 +18,7 @@ class ControladorClinicas:
         self.__tela_clinica = TelaClinica()
         self.__clinicas = []
 
-    def pega_clinica_por_codigo(self, codigo: int) -> Clinica:
+    def pega_clinica_por_codigo(self, codigo: str) -> Clinica:
         for clinica in self.__clinicas:
             if clinica.codigo == codigo:
                 return clinica
@@ -86,6 +86,7 @@ class ControladorClinicas:
             if clinica is not None:
                 self.__clinicas.remove(clinica)
                 self.lista_clinicas()
+                self.__tela_clinica.mostra_mensagem('Clinica removida com sucesso!')
             else:
                 raise ClinicaInexistenteException(codigo_clinica)
 
